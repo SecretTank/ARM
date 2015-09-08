@@ -1,0 +1,4 @@
+1. Create Directory /usr/include/CMSIS and /usr/include/CMSIS/Device
+3. Copy %Cube%/Drivers/CMSIS/Include to /usr/include/CMSIS
+2. Copy %Cube%/Drivers/CMSIS/Device/ST/STM32F4xx/Include to /usr/include/CMSIS/Device
+
