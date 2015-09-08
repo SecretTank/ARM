@@ -1,7 +1,6 @@
 #include "USART.h"
 
-#define 	_BV(bit)   (1 << (bit))
-#define 	bit_is_set(sfr, bit)   (sfr == bit)
+#define 	bit_is_set(sfr, bit)   (sfr & bit)
 #define 	bit_is_clear(sfr, bit)   (!(sfr & (bit)))
 #define 	loop_until_bit_is_set(sfr,bit)   do { } while (bit_is_clear(sfr, bit))
 #define 	loop_until_bit_is_clear(sfr, bit)   do { } while (bit_is_set(sfr, bit))
@@ -14,14 +13,14 @@ void initUSART(void)
 	RCC->APB1ENR |= RCC_APB1ENR_UART4EN;			//enable the clock to UART4
     asm("dsb");                         // stall instruction pipeline, until instruction completes, as
 
-	GPIOA->MODER |= GPIO_MODER_MODER0_1 ;             //set alternative function for gpioA (1:0) pins
-	GPIOA->AFR[0] = (1 << 4 ) ;				//set for uart4..6
+	GPIOA->MODER |= GPIO_MODER_MODER0_1;             //set alternative function for gpioA (1:0) pins
+	GPIOA->AFR[0] = 0x88 ;				//set for uart4..6 for pin A0 and A1 (AF8)
 	UART4->CR1 |= USART_CR1_UE;			//enable uart
 	//UART4->CR1 |= USART_CR1_M;			//program to define word length
 	//UART4->CR2 |= USART_CR2_STOP;
-	UART4->CR3 |= USART_CR3_DMAR; 		//enable uart receiver
-	UART4->CR3 |= USART_CR3_DMAT;		//enable uart transmiter
-	UART4->BRR = 0x00000682;
+	UART4->BRR = 0x00000682;           //set baudrate to 9600
+	UART4->CR1 |= USART_CR1_TE; 		//enable uart receiver
+	UART4->CR1 |= USART_CR1_RE;		//enable uart transmiter
 }
 
 

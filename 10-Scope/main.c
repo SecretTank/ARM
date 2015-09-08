@@ -22,6 +22,6 @@ int main(void)
 	initUSART();
 	while(1){
 		printString("hello world ! :D \r\n");
-		ms_delay(100);
+		ms_delay(300);
 	}
 }
