@@ -13,7 +13,7 @@ Programmer = board/stm32f4discovery.cfg
 
 
 #Input/Output Files
-SOURCES = main.c
+SOURCES = main.c USART.c
 TARGET = Scope
 
 # Name of the startup file.  'hd' for high density

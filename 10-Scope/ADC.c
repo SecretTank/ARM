@@ -10,21 +10,25 @@
 void initADC(void)
 {                                /* requires BAUD*/
 	RCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN;  // enable the clock to GPIOA
-	RCC->APB2ENR |= RRCC_APB2ENR_ADC2EN;  //enable the clock to ADC2
+	RCC->APB2ENR |= RCC_APB2ENR_ADC2EN;  //enable the clock to ADC2
     asm("dsb");                           // stall instruction pipeline, until instruction completes, as
 
 	GPIOA->MODER |= GPIO_MODER_MODER2;//set alternative function for gpioA (1:0) pins
 	ADC2->CR1 |= USART_CR1_UE;			//enable uart
-	ADC2->CR2 |= ADC_CR2_SWSTART;			//enable uart
+	ADC2->CR2 |= ADC_CR2_ADON;
 	//UART4->CR1 |= USART_CR1_M;			//program to define word length
 	//UART4->CR2 |= USART_CR2_STOP;
 }
 
 
-void ADC_DataSend()
+void ADC_DataSend(void)
 {
   /* Wait for empty transmit buffer */
-  loop_until_bit_is_set(UART4->SR,USART_SR_TXE);
-  UART4->DR |= data;                                            /* send data */
-  UART4->DR = (uint16_t)(data & 0x01FF);
+	uint16_t data;
+	ADC2->CR2 |= ADC_CR2_SWSTART;               			//enable uart
+	loop_until_bit_is_set(ADC2->SR,ADC_SR_EOC);
+	data=ADC2->DR&0xfff;
+  printWord(data);            /* send data */
 }
+
+

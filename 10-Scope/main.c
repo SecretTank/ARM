@@ -22,19 +22,20 @@ int main(void)
 		char buffer[100];
 		int i=150;
 		initUSART();
+		initADC();
+		printString("Bye");
 		RCC->AHB1ENR |= RCC_AHB1ENR_GPIODEN;  // enable the clock to GPIOD
 		GPIOD->MODER |= (1 << 26);             // set pin 13 to be general purpose output
 		GPIOD->MODER |= (1 << 24);
 		GPIOD->MODER |= (1 << 28);
 		GPIOD->MODER |= (1 << 30);
 		while(1){
-				readString(buffer,100);
-				if( strcmp(buffer, "go to hell"))
-				{
-						printString("\r\nshut up ... \r\n");
-				}
-				else {
-						printString("\r\nerror in input command\r\n");
-				}
-		}
+				printString("ADC:");
+				ADC_DataSend();
+				printString("\r\n");					
+				//readString(buffer,100);
+				ms_delay(300);
+			
+	}
 }
+
