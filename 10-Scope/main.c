@@ -19,9 +19,17 @@ void ms_delay(int ms)
 
 int main(void)
 {
+	char buffer[100];
 	initUSART();
 	while(1){
-		printString("hello world ! :D \r\n");
+		printString("another pretty day is started ! \r\nwhat do u want ? \r\n");
+		readString(buffer,100);
+		if( buffer == "go to hell"){
+				printString("\r\nshut up ... \r\n");
+		}
+		else {
+				printString("\r\nerror in input command\r\n");
+		}
 		ms_delay(300);
 	}
 }
