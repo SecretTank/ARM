@@ -13,14 +13,11 @@ void initADC(void)
 	RCC->APB2ENR |= RRCC_APB2ENR_ADC2EN;  //enable the clock to ADC2
     asm("dsb");                           // stall instruction pipeline, until instruction completes, as
 
-	GPIOA->MODER |= GPIO_MODER_MODER0_1;  //set alternative function for gpioA (1:0) pins
-	GPIOA->AFR[0] = 0x88 ;				//set for uart4..6 for pin A0 and A1 (AF8)
-	UART4->CR1 |= USART_CR1_UE;			//enable uart
+	GPIOA->MODER |= GPIO_MODER_MODER2;//set alternative function for gpioA (1:0) pins
+	ADC2->CR1 |= USART_CR1_UE;			//enable uart
+	ADC2->CR2 |= ADC_CR2_SWSTART;			//enable uart
 	//UART4->CR1 |= USART_CR1_M;			//program to define word length
 	//UART4->CR2 |= USART_CR2_STOP;
-	UART4->BRR = 0x00000682;           //set baudrate to 9600
-	UART4->CR1 |= USART_CR1_TE; 		//enable uart receiver
-	UART4->CR1 |= USART_CR1_RE;		//enable uart transmiter
 }
 
 
