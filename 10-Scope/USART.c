@@ -33,8 +33,13 @@ void transmitByte(uint8_t data) {
 
 uint8_t receiveByte(void) {
 		loop_until_bit_is_clear(UART4->SR,USART_SR_RXNE);       /* Wait for incoming data */
-		if(UART4->SR |= USART_SR_ORE){
-				printString("\r\nORE\r\n");
+		if(UART4->SR |= USART_SR_ORE)
+		{
+				GPIOD->ODR ^= (1 << 12);				
+		}
+		else
+		{
+				GPIOD->ODR ^= (1 << 13);
 		}
 		UART4->SR &= ~USART_SR_RXNE;
 		return UART4->DR;                                /* return register value */
