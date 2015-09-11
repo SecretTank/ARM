@@ -14,10 +14,9 @@ void initADC(void)
     asm("dsb");                           // stall instruction pipeline, until instruction completes, as
 
 	GPIOA->MODER |= GPIO_MODER_MODER2;//set alternative function for gpioA (1:0) pins
-	ADC2->CR1 |= USART_CR1_UE;			//enable uart
-	ADC2->CR2 |= ADC_CR2_ADON;
-	//UART4->CR1 |= USART_CR1_M;			//program to define word length
-	//UART4->CR2 |= USART_CR2_STOP;
+	ADC2->CR1 |= USART_CR1_UE;			  //enable uart
+	ADC2->CR2 |= ADC_CR2_ADON;				//enable ADC
+	ADC2->SQR3 |= ADC_SQR3_SQ1_1;			// setting channell
 }
 
 
@@ -25,10 +24,15 @@ void ADC_DataSend(void)
 {
   /* Wait for empty transmit buffer */
 	uint16_t data;
+	uint8_t data8_bit; 
 	ADC2->CR2 |= ADC_CR2_SWSTART;               			//enable uart
-	loop_until_bit_is_set(ADC2->SR,ADC_SR_EOC);
+	loop_until_bit_is_set(ADC2->SR,ADC_SR_EOC);				//wait till adc conversion
 	data=ADC2->DR&0xfff;
-  printWord(data);            /* send data */
+	data8_bit=data%0x100;						//send LSB									
+  transmitByte(data8_bit);
+  data_8bit=data/0x100;						//send MSB
+	transmitByte(data8_bit);
+	transmitByte("\r");             /* send data */
 }
 
 
