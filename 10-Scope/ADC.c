@@ -37,7 +37,6 @@ void initADC_Cont(void){
 
 void ADC_DataSend(void)
 {
-<<<<<<< HEAD
   /* Wait for empty transmit buffer */
 	uint16_t data;
 	uint8_t data8_bit; 
@@ -49,19 +48,6 @@ void ADC_DataSend(void)
   data8_bit=data/0x100;						//send MSB
 	transmitByte(data8_bit);
 	transmitByte("\r");             /* send data */
-=======
-		/* Wait for empty transmit buffer */
-		uint16_t data;
-		uint8_t data8_bit; 
-		ADC2->CR2 |= ADC_CR2_SWSTART;               			//enable uart
-		loop_until_bit_is_set(ADC2->SR,ADC_SR_EOC);				//wait till adc conversion
-		data=ADC2->DR&0xfff;
-		data8_bit=data%0x100;						//send LSB									
-		transmitByte(data8_bit);
-		data8_bit=data/0x100;						//send MSB
-		transmitByte(data8_bit);
-		transmitByte("\r");             /* send data */
->>>>>>> 522a5f7653e11c5a9f0071e957846834b7eae215
 }
 
 void ADC_IRQHandler(void)
