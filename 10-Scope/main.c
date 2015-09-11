@@ -22,19 +22,30 @@ int main(void)
 		char buffer[100];
 		int i=150;
 		initUSART();
+<<<<<<< HEAD
+		initADC_Cont();
+		printString("Bye");
+=======
 		initADC();
+>>>>>>> 522a5f7653e11c5a9f0071e957846834b7eae215
 		RCC->AHB1ENR |= RCC_AHB1ENR_GPIODEN;  // enable the clock to GPIOD
 		GPIOD->MODER |= (1 << 26);             // set pin 13 to be general purpose output
 		GPIOD->MODER |= (1 << 24);
 		GPIOD->MODER |= (1 << 28);
 		GPIOD->MODER |= (1 << 30);
 		while(1){
+<<<<<<< HEAD
+				//printString("ADC:");
+				//ADC_DataSend();
+				//printString("\r\n");					
+=======
 				if (!( ADC2->CR2 & ADC_CR2_CONT ))
 				{
 					GPIOD->ODR |=  1 << 13;
 				}
 				ADC_DataSend();
 				printString("\r");					
+>>>>>>> 522a5f7653e11c5a9f0071e957846834b7eae215
 				//readString(buffer,100);
 				//ms_delay(300);
 			
