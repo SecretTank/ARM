@@ -29,10 +29,14 @@ int main(void)
 		GPIOD->MODER |= (1 << 28);
 		GPIOD->MODER |= (1 << 30);
 		while(1){
+				if (!( ADC2->CR2 & ADC_CR2_CONT ))
+				{
+					GPIOD->ODR |=  1 << 13;
+				}
 				ADC_DataSend();
 				printString("\r");					
 				//readString(buffer,100);
-				ms_delay(300);
+				//ms_delay(300);
 			
 	}
 }
