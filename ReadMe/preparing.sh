@@ -13,3 +13,6 @@ cp "ZPreparing/50-embedded_devices.rules" /etc/udev/rules.d/
 cp ZPreparing/gtkterm.desktop /usr/share/applications/
 chmod +x /usr/share/applications/gtkterm.desktop
 echo "Please reboot to changes take effect"
+#add Qt color scheme
+cp 'ZPreparing/Cobalt.xml' '~/.config/QtProject/qtcreator/styles'
+chmod 777 '~/.config/QtProject/qtcreator/styles/Cobalt.xml'
