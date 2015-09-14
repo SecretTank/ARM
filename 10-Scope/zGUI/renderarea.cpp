@@ -5,9 +5,9 @@
 RenderArea::RenderArea(QWidget *parent)
     : QWidget(parent)
 {
-    shape = Ellipse;
     setBackgroundRole(QPalette::Base);
     setAutoFillBackground(true);
+    //painter = QPainter(this);
 }
 
 QSize RenderArea::minimumSizeHint() const
@@ -20,62 +20,29 @@ QSize RenderArea::sizeHint() const
     return QSize(1200, 400);
 }
 
-void RenderArea::setShape(Shape shape)
+void RenderArea::setCoordinate(int X , int ny , int ly )
 {
-    this->shape = shape;
-    update();
-}
-
-void RenderArea::setBrush(const QBrush &brush)
-{
-    this->brush = brush;
-    update();
-}
-
-void RenderArea::setCoordinate(QVector<int> Y)
-{
-    y = Y;
+    x = X;
+    new_y = ny;
+    last_y = ly;
     update();
 }
 
 void RenderArea::paintEvent(QPaintEvent * /* event */)
 {
-    static const QPoint points[4] = {
-        QPoint(10, 80),
-        QPoint(20, 10),
-        QPoint(80, 30),
-        QPoint(90, 70)
-    };
-
-    QRect rect(0, 0, 10, 10);
-    QPainterPath path;
-    path.moveTo(20, 80);
-    path.lineTo(20, 30);
-    path.cubicTo(80, 0, 50, 50, 80, 80);
-
-    QPainter painter(this);
-    painter.setPen(pen);
-    painter.setBrush(brush);
-
-    for (int x = 1; x < y.size(); x++) {
-            painter.save();
-            painter.translate(5*x, 350 - y[x-1]);
-            switch (shape) {
-
-            case Points:
-                painter.drawPoints(points, 4);
-                break;
-
-            case Ellipse:
-                painter.drawEllipse(rect);
-                break;
-            }
-            painter.restore();
-    }
-
-    painter.setRenderHint(QPainter::Antialiasing, false);
-    painter.setPen(palette().dark().color());
-    painter.setBrush(Qt::NoBrush);
-    painter.drawRect(QRect(0, 0, width() - 1, height() - 1));
+    //QPainterPath path;
+    QPainter painter;
+    painter.begin(this);
+    //QPainter painter(this);
+    //painter.setPen(Qt::NoPen);
+    //painter.setBrush();
+    //painter.save();
+    //painter.drawEllipse(rect);
+    painter.fillRect(10*x, 0, 10, this->height(),palette().dark());
+    painter.setBrush(palette().dark().color());
+    //painter.save();
+    //painter.translate(5*x,350 - new_y);
+    painter.drawEllipse(QPoint(10*x+5,new_y),5,5);
+    //painter.restore();
 }
 

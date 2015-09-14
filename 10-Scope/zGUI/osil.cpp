@@ -1,6 +1,5 @@
 #include "renderarea.h"
 #include "osil.h"
-#include <unistd.h>
 #include <QtWidgets>
 #include <string>
 #include <math.h>
@@ -17,61 +16,35 @@
 #define find_backR 0
 #define get_first_char 1
 #define get_sec_char 2
+
 osil::osil()
 {
     serial = new QSerialPort(this);
     renderArea = new RenderArea;
-    shapeComboBox = new QComboBox;
-    shapeComboBox->addItem(tr("Ellipse"), RenderArea::Ellipse);
-    shapeComboBox->addItem(tr("Points"), RenderArea::Points);
-    shapeLabel = new QLabel(tr("&Shape:"));
-    shapeLabel->setBuddy(shapeComboBox);
     status = new QLabel("disconnected!");
-
-    for(int i = 0 ; y.size() ; i++){
-        y.push_back(0);
-        renderArea->setCoordinate(y);
-    }
-    connect(shapeComboBox, SIGNAL(activated(int)),
-            this, SLOT(shapeChanged()));
     QGridLayout *mainLayout = new QGridLayout;
+    x = 0;
+    y = QVector<int> (200);
 
     mainLayout->addWidget(renderArea, 0, 0, 1, 4);
-    mainLayout->addWidget(shapeLabel, 2, 0, Qt::AlignLeft);
-    mainLayout->addWidget(shapeComboBox, 2, 1);
     mainLayout->addWidget(status, 3 , 0);
     setLayout(mainLayout);
-
-    shapeChanged();
-    brushChanged();
     setWindowTitle(tr("** MY OSIL **"));
     openSerialPort();
     turn = find_backR;
     connect(serial,SIGNAL(readyRead()),this,SLOT(readData()));
 }
 
-void osil::shapeChanged()
-{
-    RenderArea::Shape shape = RenderArea::Shape(shapeComboBox->itemData(
-            shapeComboBox->currentIndex(), Qt::UserRole).toInt());
-    renderArea->setShape(shape);
-}
-
-void osil::brushChanged()
-{
-        QLinearGradient linearGradient(0, 0, 100, 100);
-        linearGradient.setColorAt(0.0, Qt::white);
-        linearGradient.setColorAt(0.2, Qt::green);
-        linearGradient.setColorAt(1.0, Qt::black);
-        renderArea->setBrush(linearGradient);
-}
-
 void osil::update_osil()
 {
-        if(y.size()>175)
-            y.pop_front();
-        y.push_back(voltage/4096.0 * 350.0);
-        renderArea->setCoordinate(y);
+    int last_y;
+    last_y = y[x];
+    y[x] = voltage/4096.0 * 350.0;
+    renderArea->setCoordinate(x,y[x],last_y);
+    if(x>173)
+        x=0;
+    else
+        x++;
 }
 
 void osil::openSerialPort()

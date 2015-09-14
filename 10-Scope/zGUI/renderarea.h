@@ -3,9 +3,9 @@
 
 #include <QBrush>
 #include <QPen>
-#include <QPixmap>
 #include <QWidget>
 #include <QVector>
+#include <QPainter>
 //! [0]
 class RenderArea : public QWidget
 {
@@ -19,16 +19,14 @@ public:
     QSize sizeHint() const Q_DECL_OVERRIDE;
 
 public slots:
-    void setShape(Shape shape);
-    void setBrush(const QBrush &brush);
-    void setCoordinate(QVector<int> Y);
+    void setCoordinate(int X, int ny, int ly);
 protected:
     void paintEvent(QPaintEvent *) Q_DECL_OVERRIDE;
 
 private:
-    Shape shape;
-    QPen pen;
-    QBrush brush;
-    QVector<int> y;
+    //QPainter painter;
+    int x;
+    int new_y;
+    int last_y;
 };
 #endif // RENDERAREA_H
