@@ -6,6 +6,7 @@
 #include <QWidget>
 #include <QVector>
 #include <QPainter>
+#include <QDebug>
 //! [0]
 class RenderArea : public QWidget
 {
@@ -26,7 +27,10 @@ protected:
 private:
     //QPainter painter;
     int x;
+    int i;
     int new_y;
     int last_y;
+    QPixmap *boom;
+    QPainter img_painter;
 };
 #endif // RENDERAREA_H
