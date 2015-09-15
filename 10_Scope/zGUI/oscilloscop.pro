@@ -18,3 +18,6 @@ SOURCES += main.cpp\
 
 HEADERS  += osil.h \
     renderarea.h
+
+LIBS += -lpthread
+#INCLUDEPATH +=

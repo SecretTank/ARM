@@ -7,6 +7,7 @@
 #include <QVector>
 #include <QPainter>
 #include <QDebug>
+#include <pthread.h>
 //! [0]
 class RenderArea : public QWidget
 {
@@ -21,10 +22,8 @@ public:
 
 public slots:
     void setCoordinate(int X, int ny, int ly);
-protected:
-    void paintEvent(QPaintEvent *) Q_DECL_OVERRIDE;
 
-private:
+public:
     //QPainter painter;
     int x;
     int i;
@@ -32,5 +31,8 @@ private:
     int last_y;
     QPixmap *boom;
     QPainter img_painter;
+    pthread_t *thread_painter;
 };
 #endif // RENDERAREA_H
+
+void osil_paint(void *ptr);
