@@ -12,10 +12,10 @@
 #define	ControlReg		 0x0C 		// miscellaneous control registers
 #define	BitFramingReg	 0x0D 		// adjustments for bit-oriented frames
 #define	CollReg			 0x0E 		// bit position of the first bit-collision detected on the RF interface
-#define	//						  0x0F			// reserved for future use
-#define	
-#define	// Page 1: Command
-#define	// 						  0x10			// reserved for future use
+//						  0x0F			// reserved for future use
+
+// Page 1: Command
+// 						  0x10			// reserved for future use
 #define	ModeReg			 0x11 		// defines general modes for transmitting and receiving 
 #define	TxModeReg		 0x12 		// defines transmission data rate and framing
 #define	RxModeReg		 0x13 		// defines reception data rate and framing
@@ -27,11 +27,11 @@
 #define	DemodReg		 0x19 		// defines demodulator settings
 #define	MfTxReg			 0x1C 		// controls some MIFARE communication transmit parameters
 #define	MfRxReg			 0x1D 		// controls some MIFARE communication receive parameters
-#define	// 						  0x1E			// reserved for future use
+// 						  0x1E			// reserved for future use
 #define	SerialSpeedReg	 0x1F 		// selects the speed of the serial UART interface
-#define	
-#define	// Page 2: Configuration
-#define	// 						  0x20			// reserved for future use
+	
+// Page 2: Configuration
+// 						  0x20			// reserved for future use
 #define	CRCResultRegH	 0x21 		// shows the MSB and LSB values of the CRC calculation
 #define	CRCResultRegL	 0x22 	
 #define	ModWidthReg		 0x24 		// controls the ModWidth setting?
@@ -45,9 +45,9 @@
 #define	TReloadRegL		 0x2D 	
 #define	TCounterValueRegH		0x2E 		// shows the 16-bit timer value
 #define	TCounterValueRegL		0x2F 	
-#define	
-#define	// Page 3: Test Registers
-#define	// 						  0x30			// reserved for future use
+	
+// Page 3: Test Registers
+// 						  0x30			// reserved for future use
 #define	TestSel1Reg		 0x31 		// general test signal configuration
 #define	TestSel2Reg		 0x32 		// general test signal configuration
 #define	TestPinEnReg	 0x33 		// enables pin output driver on pins D1 to D7
@@ -60,13 +60,13 @@
 #define	TestDAC2Reg		 0x3A 		// defines the test value for TestDAC2
 #define	TestADCReg		 0x3B << 1		// shows the value of ADC I and Q channels
 
-#define	PCD_Idle				0x00	// no action, cancels current command execution
-#define	PCD_Mem					0x01	// stores 25 bytes into the internal buffer
-#define	PCD_GenerateRandomID	0x02	// generates a 10-byte random ID number
-#define	PCD_CalcCRC				0x03	// activates the CRC coprocessor or performs a self test
-#define	PCD_Transmit			0x04	// transmits data from the FIFO buffer
-#define	PCD_NoCmdChange			0x07	// no command change, can be used to modify the CommandReg register bits without affecting the command, for example, the PowerDown bit
-#define	PCD_Receive				0x08	// activates the receiver circuits
-#define	PCD_Transceive 			0x0C	// transmits data from FIFO buffer to antenna and automatically activates the receiver after transmission
-#define	PCD_MFAuthent 			0x0E	// performs the MIFARE standard authentication as a reader
-#define	PCD_SoftReset			0x0F		// resets the MFRC522
+#define	COMMAND_Idle				0x00	// no action, cancels current command execution
+#define	COMMAND_Mem					0x01	// stores 25 bytes into the internal buffer
+#define	COMMAND_GenerateRandomID	0x02	// generates a 10-byte random ID number
+#define	COMMAND_CalcCRC				0x03	// activates the CRC coprocessor or performs a self test
+#define	COMMAND_Transmit			0x04	// transmits data from the FIFO buffer
+#define	COMMAND_NoCmdChange			0x07	// no command change, 
+#define	COMMAND_Receive				0x08	// activates the receiver circuits
+#define	COMMAND_Transceive 			0x0C
+#define	COMMAND_MFAuthent 			0x0E	// performs the MIFARE standard authentication as a reader
+#define	COMMAND_SoftReset			0x0F		// resets the MFRC522

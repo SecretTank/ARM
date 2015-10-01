@@ -36,25 +36,6 @@ void initSPI(void);
 void SPI_tradeByte(uint8_t byte);
 
                      /* splits 16-bit address into 2 bytes, sends both */
-void EEPROM_send16BitAddress(uint16_t address);
+void RFID_setRegister(uint8_t  data,uint8_t address) ;
 
-                                   /* reads the EEPROM status register */
-uint8_t EEPROM_readStatus(void);
-
-                                   /* helper: sets EEPROM write enable */
-void EEPROM_writeEnable(void);
-
-                           /* gets a byte from a given memory location */
-uint8_t EEPROM_readByte(uint16_t address);
-
-                        /* gets two bytes from a given memory location */
-uint16_t EEPROM_readWord(uint16_t address);
-
-                           /* writes a byte to a given memory location */
-void EEPROM_writeByte(uint16_t address, uint8_t byte);
-
-                          /* gets two bytes to a given memory location */
-void EEPROM_writeWord(uint16_t address, uint16_t word);
-
-                                  /* sets every byte in memory to zero */
-void EEPROM_clearAll(void);
+uint8_t RFID_readRegister(uint8_t address);

@@ -38,12 +38,3 @@ uint8_t RFID_readRegister(uint8_t address)
   return (SPDR);                                  /* return the result */
 }
 
-uint8_t EEPROM_readByte(uint16_t address) {
-  SLAVE_SELECT;
-  SPI_tradeByte(EEPROM_READ);
-  EEPROM_send16BitAddress(address);
-  SPI_tradeByte(0);
-  SLAVE_DESELECT;
-  return (SPDR);
-}
-
