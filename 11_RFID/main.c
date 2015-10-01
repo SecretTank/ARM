@@ -37,7 +37,7 @@ int main(void) {
 				buffer = buffer & 0xf0; // perform Mem 
 				buffer |= COMMAND_Mem; // perform Mem 
 				RFID_setRegister(CommandReg,buffer);
-				
+			  RFID_readRegister(FIFODataReg); 	
 				_delay_ms(2000);
 				
 				printString("\r\n====  RFID Responsed ====\r\n");

@@ -38,3 +38,13 @@ uint8_t RFID_readRegister(uint8_t address)
   return (SPDR);                                  /* return the result */
 }
 
+uint8_t* RFID_readFIFODataReg()
+{
+	int i;
+	char[16] buffer;
+	SLAVE_SELECT;
+	for(i=0;
+	if(RFID_readRegister(FIFOLevelReg) == 0x00 )
+
+	SLAVE_DESELCT;
+}
