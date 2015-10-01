@@ -39,18 +39,17 @@ uint8_t RFID_readRegister(uint8_t address)
   return (SPDR);                                  /* return the result */
 }
 
-<<<<<<< HEAD
 uint8_t* RFID_readFIFODataReg()
 {
 	int i;
-	char[16] buffer;
-	SLAVE_SELECT;
-	for(i=0;
-	if(RFID_readRegister(FIFOLevelReg) == 0x00 )
-
-	SLAVE_DESELCT;
+	uint8_t buffer[64];
+	for(i=0;i<64;i++){
+		if( RFID_readRegister(FIFOLevelReg) == 0x00 )
+			return buffer;
+		buffer[i] = RFID_readRegister(FIFODataReg);
+	}
 }
-=======
+
 uint8_t RFID_doWait(uint8_t command)
 {
 	uint8_t buffer;
@@ -67,4 +66,3 @@ uint8_t RFID_doWait(uint8_t command)
 	while(buffer != 0);
 }
 
->>>>>>> 900770509421753bfa641d7da529d7d09ff2a393
