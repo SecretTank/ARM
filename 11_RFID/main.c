@@ -23,30 +23,10 @@ int main(void) {
 		{
 				RFID_setRegister(
 				while(!RFID_readRegister())
-					;
+					; //loop until idel mode
 				printByte(RFID_readRegister());
-				printString("\r\n====  EEPROM Memory Playground ====\r\n");
-				//printString("Address  Value\r\n");
+				printString("\r\n====  RFID Responsed ====\r\n");
 
-				/*printString(" [e] to erase all memory\r\n");
-				  printString(" [w] to write byte to memory\r\n\r\n");
-
-				  switch (receiveByte()) {                             // take input
-				  case 'e':
-				  printString("Clearing EEPROM, this could take a few seconds.\r\n");
-				  EEPROM_clearAll();
-				  break;
-				  case 'w':
-				  printString("Which memory slot would you like to write to?\r\n");
-				  address = getNumber();
-				  printString("\r\nWhat number would you like to store there?\r\n");
-				  i = getNumber();
-				  EEPROM_writeByte(address, i);
-				  printString("\r\n");
-				  break;
-				  default:
-				  printString("What??\r\n");
-				  }*/
 				_delay_ms(1000);
 		}                                                  /* End event loop */
 		return (0);                            /* This line is never reached */
