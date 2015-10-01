@@ -1,0 +1,19 @@
+<RCC>
+    <qresource prefix="/">
+        <file>zarbdar_r.png</file>
+        <file>zarbdar.png</file>
+        <file>mybutton.wav</file>
+        <file>mosalas_r.png</file>
+        <file>mosalas.png</file>
+        <file>moraba_roshan.png</file>
+        <file>moraba.png</file>
+        <file>main.qml</file>
+        <file>dayere_roshan.png</file>
+        <file>dayere.png</file>
+        <file>cursuor.png</file>
+        <file>back.png</file>
+        <file>Joystick.qml</file>
+        <file>Cell.qml</file>
+        <file>Scam.qml</file>
+    </qresource>
+</RCC>
