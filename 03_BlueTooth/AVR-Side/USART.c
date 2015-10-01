@@ -22,7 +22,7 @@
 
 void initUSART(void) {                                /* requires BAUD */
   UBRR0H = 0x00;                        /* defined in setbaud.h */
-  UBRR0L = 0x0c;
+  UBRR0L = 0x33;
 /*#if USE_2X
   UCSR0A |= (1 << U2X0);
 #else*/

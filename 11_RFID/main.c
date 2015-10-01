@@ -8,6 +8,7 @@
 
 #include "USART.h"
 #include "SPI.h"
+#include "RFID.h"
 
 int main(void) {
 		uint8_t i;
@@ -18,12 +19,14 @@ int main(void) {
 		initUSART();
 
 		// ------ Event loop ------ //
-		while (1) {
-				SPI_tradeByte(0x01<<1 | 0x80 ); //transmit command start 0x01 is address 
-				SPI_tradeByte(0);
-				printByte(SPDR);
-						printString("\r\n====  EEPROM Memory Playground ====\r\n");
-				printString("Address  Value\r\n");
+		while (1) 
+		{
+				RFID_setRegister(
+				while(!RFID_readRegister())
+					;
+				printByte(RFID_readRegister());
+				printString("\r\n====  EEPROM Memory Playground ====\r\n");
+				//printString("Address  Value\r\n");
 
 				/*printString(" [e] to erase all memory\r\n");
 				  printString(" [w] to write byte to memory\r\n\r\n");
@@ -45,8 +48,6 @@ int main(void) {
 				  printString("What??\r\n");
 				  }*/
 				_delay_ms(1000);
-
-
 		}                                                  /* End event loop */
 		return (0);                            /* This line is never reached */
 }
