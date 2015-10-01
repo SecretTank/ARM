@@ -22,21 +22,8 @@ int main(void) {
 		// ------ Event loop ------ //
 		while (1) 
 		{
-				do
-					buffer = RFID_readRegister(CommandReg); //loop until idel mode
-				while(buffer != 0);
-					
-					
-				buffer = buffer | COMMAND_SoftReset; // perform softreset 
-				RFID_setRegister(CommandReg,buffer);
-
-				do
-					buffer = RFID_readRegister(CommandReg); //loop until idel mode
-				while(buffer != 0);
-				
-				buffer = buffer & 0xf0; // perform Mem 
-				buffer |= COMMAND_Mem; // perform Mem 
-				RFID_setRegister(CommandReg,buffer);
+				RFID_doWait(COMMAND_SoftReset); // perform softreset 
+				RFID_doWait(COMMAND_Mem);
 				
 				_delay_ms(2000);
 				
