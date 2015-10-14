@@ -21,22 +21,21 @@ Item{
                 NumberAnimation { target: thumb.anchors; property: "verticalCenterOffset";
                     to: 0; duration: 100; easing.type: Easing.OutSine }
             }
-
-            MouseArea {
-                id: mouse
-                property real fingerAngle : Math.atan2(mouseX, mouseY)
-                property int mcx : mouseX - width * 0.5
-                property int mcy : mouseY - height * 0.5
+                MultiPointTouchArea {
+                    anchors.fill: parent
+                    touchPoints: [
+                        TouchPoint { id: point1 }
+                    ]
+                property real fingerAngle : Math.atan2(point1.x, point1.y)
+                property int mcx : point1.x - width * 0.5
+                property int mcy : point1.y - height * 0.5
                 property bool fingerOutOfBounds : fingerDistance2 < distanceBound2
                 property real fingerDistance2 : mcx * mcx + mcy * mcy
                 property real distanceBound : width * 0.5 - thumb.width * 0.4
                 property real distanceBound2 : distanceBound * distanceBound
-
-                anchors.fill: parent
-
                 onPressed: returnAnimation.stop()
                 onReleased: returnAnimation.restart()
-                onPositionChanged: {
+                onGestureStarted: {
                     if (fingerOutOfBounds) {
                         thumb.anchors.horizontalCenterOffset = mcx
                         thumb.anchors.verticalCenterOffset = mcy
@@ -60,4 +59,26 @@ Item{
         }
     }
 }
+
+/*Rectangle{
+    Rectangle {
+        width: 1000; height: 1000
+        color:"red"
+        MultiPointTouchArea {
+            anchors.fill: parent
+            touchPoints: [
+                TouchPoint { id: point1 }
+            ]
+            //onGestureStarted: console.log("hello")
+            onPressed: console.log("meow")
+            onReleased: console.log("bye")
+        }
+
+        Rectangle {
+            width: 30; height: 30
+            color: "green"
+            x: point1.x
+            y: point1.y
+        }
+    }*/
 

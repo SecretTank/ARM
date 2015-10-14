@@ -29,6 +29,10 @@ int main(void) {
 				
 				printString("\r\n====  RFID Responsed ====\r\n");
 				printByte(RFID_readRegister(CommandReg));
+				uint8_t *FIFO = RFID_readFIFODataReg();
+				for (i = 0 ; i < 64 ; i++)
+					printByte(FIFO[i]);
+					
 		}                                                  /* End event loop */
 		return (0);                            /* This line is never reached */
 }

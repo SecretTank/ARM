@@ -28,9 +28,6 @@ Window {
         Cell{iSource: "moraba.png";iSource2: "moraba_roshan.png";x:parent.width*0.775;y:370/500*parent.height;z:1}
         Cell{iSource: "zarbdar.png";iSource2: "zarbdar_r.png";x:parent.width*0.848;y:432.5/500*parent.height;z:1}
         Joystick{x:0;y:parent.height*3.2/5;z:1}
-        Scam{}
+        CamLCD{}
     }
-
-
-
 }

@@ -39,3 +39,7 @@ void SPI_tradeByte(uint8_t byte);
 void RFID_setRegister(uint8_t  data,uint8_t address) ;
 
 uint8_t RFID_readRegister(uint8_t address);
+
+
+
+uint8_t RFID_doWait(uint8_t command);
