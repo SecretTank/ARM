@@ -22,9 +22,9 @@ int main(void) {
 		// ------ Event loop ------ //
 		while (1) 
 		{
-				RFID_doWait(COMMAND_SoftReset); // perform softreset 
-				RFID_doWait(COMMAND_Mem);
-				
+				RFID_doWait(PCD_SOFTRESET); // perform softreset 
+				RFID_doWait(PCD_MEM);
+
 				_delay_ms(2000);
 				
 				printString("\r\n====  RFID Responsed ====\r\n");
@@ -32,7 +32,8 @@ int main(void) {
 				uint8_t *FIFO = RFID_readFIFODataReg();
 				for (i = 0 ; i < 64 ; i++)
 					printByte(FIFO[i]);
-					
+
 		}                                                  /* End event loop */
+
 		return (0);                            /* This line is never reached */
 }

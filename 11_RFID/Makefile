@@ -4,7 +4,7 @@
 ##########    Check these every time you start a new project    ##########
 ##########------------------------------------------------------##########
 
-MCU   = atmega168
+MCU   = atmega328
 F_CPU = 8000000
 BAUD = 9600
 ## Also try BAUD = 19200 or 38400 if you're feeling lucky.

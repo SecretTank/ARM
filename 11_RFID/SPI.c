@@ -1,5 +1,7 @@
 #include "SPI.h"
 #include "RFID.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 void initSPI(void) {
   SPI_SS_DDR |= (1 << SPI_SS);                        /* set SS output */
@@ -42,27 +44,29 @@ uint8_t RFID_readRegister(uint8_t address)
 uint8_t* RFID_readFIFODataReg()
 {
 	int i;
-	uint8_t buffer[64];
+	uint8_t* buffer;
+	buffer =(uint8_t*) malloc(sizeof(char)*64);
 	for(i=0;i<64;i++){
-		if( RFID_readRegister(FIFOLevelReg) == 0x00 )
+		if( RFID_readRegister(FIFOLEVELREG) == 0x00 )
 			return buffer;
-		buffer[i] = RFID_readRegister(FIFODataReg);
+		buffer[i] = RFID_readRegister(FIFODATAREG);
 	}
+	return buffer;
 }
 
 uint8_t RFID_doWait(uint8_t command)
 {
 	uint8_t buffer;
 	do
-		buffer = RFID_readRegister(CommandReg); //loop until idel mode
+		buffer = RFID_readRegister(COMMANDREG); //loop until idel mode
 	while(buffer != 0);
 			
 	buffer = buffer & 0xf0; // reset command bits 
 	buffer |= command; // set command
-	RFID_setRegister(CommandReg,buffer);
+	RFID_setRegister(COMMANDREG,buffer);
 		
 	do
-		buffer = RFID_readRegister(CommandReg); //loop until idel mode
+		buffer = RFID_readRegister(COMMANDREG); //loop until idel mode
 	while(buffer != 0);
 }
 
