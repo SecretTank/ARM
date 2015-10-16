@@ -6,18 +6,22 @@ Window {
     visible: true
     property alias miheight:page.width
     color:"#171717"
+    minimumHeight: 430
+    minimumWidth: 800
     Rectangle{
         Rectangle {
-            visible:false
+            visible:true
             id:my
-             width: 120
-             height: 120
-             x: 1080
-             y:540
-             color: "#095e7b"
-             border.color: "#0a2f4a"
-             border.width: 2
-             radius: width*0.5
+             x: 10
+             y:0
+             Text {
+                     id: helloText
+                     text: "#0056"
+                     y: 10
+                     anchors.horizontalCenter: page.horizontalCenter
+                     font.pointSize: 20; font.bold: true
+                     color:"#ffffff"
+             }
         }
 
         color:"#171717"
