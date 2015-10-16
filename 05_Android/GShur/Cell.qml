@@ -7,15 +7,20 @@ Item{
     property alias iSource: myButton.source
     property alias iSource2:myButton2.source
     property alias mynum: fw.height
+    signal buttonClicked
     Rectangle{
         id:fw
         Image{
             MouseArea {
                 anchors.fill: parent
-                onPressed: PropertyAnimation { target: myButton; property: "opacity"; to: 0 ;duration: 50; easing.type: Easing.OutSine  }
+                onPressed:   {container.buttonClicked();animateClick.start()}
                 onClicked: { playSound.play()}
-                onReleased:PropertyAnimation { target: myButton; property: "opacity"; to: 1 ;duration: 50; easing.type: Easing.OutSine  }
+                onReleased:PropertyAnimation { target: myButton; property: "opacity";
+                    to: 1 ;duration: 50; easing.type: Easing.OutSine  }
             }
+
+            PropertyAnimation { id: animateClick;target: myButton; property: "opacity";
+                                to: 0 ;duration: 50; easing.type: Easing.OutSine  }
             property real angle : 0
             property real distance : 0
             id:myButton

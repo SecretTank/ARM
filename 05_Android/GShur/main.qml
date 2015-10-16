@@ -8,10 +8,10 @@ Window {
     color:"#171717"
     minimumHeight: 430
     minimumWidth: 800
-    signal morabaSignal(var anObject)
-    signal mosalasSignal(var anObject)
-    signal dayereSignal(var anObject)
-    signal zarbdarSignal(var anObject)
+    signal morabaSignal
+    signal mosalasSignal
+    signal dayereSignal
+    signal zarbdarSignal
     Rectangle{
         Rectangle {
             visible:true
@@ -31,10 +31,14 @@ Window {
         color:"#171717"
         id: pageOverlay
         anchors.fill: parent
-        Cell{iSource: "dayere.png";iSource2:"dayere_roshan.png" ;x:parent.width*0.920;y:370/500*parent.height;z:1}
-        Cell{iSource: "mosalas.png";iSource2:"mosalas_r.png";x:parent.width*0.848;y:308/500*parent.height;z:1}
-        Cell{iSource: "moraba.png";iSource2: "moraba_roshan.png";x:parent.width*0.775;y:370/500*parent.height;z:1}
-        Cell{iSource: "zarbdar.png";iSource2: "zarbdar_r.png";x:parent.width*0.848;y:432.5/500*parent.height;z:1}
+        Cell{iSource: "dayere.png";iSource2:"dayere_roshan.png" ;x:parent.width*0.920;y:370/500*parent.height;z:1
+            ;onButtonClicked:page.dayereSignal()}
+        Cell{iSource: "mosalas.png";iSource2:"mosalas_r.png";x:parent.width*0.848;y:308/500*parent.height;z:1
+            ;onButtonClicked:page.mosalasSignal()}
+        Cell{iSource: "moraba.png";iSource2: "moraba_roshan.png";x:parent.width*0.775;y:370/500*parent.height;z:1
+            ;onButtonClicked:page.morabaSignal()}
+        Cell{iSource: "zarbdar.png";iSource2: "zarbdar_r.png";x:parent.width*0.848;y:432.5/500*parent.height;z:1
+            ;onButtonClicked:page.zarbdarSignal()}
         Joystick{x:0;y:parent.height*3.2/5;z:1}
         CamLCD{}
     }

@@ -13,9 +13,10 @@ public:
 signals:
 
 public slots:
-    void cppSlot(const QString &msg) {
-        qDebug() << "Called the C++ slot with message:" << msg;
-    }
+    void morabaaSlot();
+    void mosalasSlot();
+    void dayereSlot();
+    void zarbdarSlot();
 };
 
 #endif // TRANSMISSION_H
