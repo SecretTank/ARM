@@ -2,6 +2,7 @@
 #define TRANSMISSION_H
 
 #include <QObject>
+#include <QDebug>
 
 class Transmission : public QObject
 {

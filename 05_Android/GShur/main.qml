@@ -8,6 +8,10 @@ Window {
     color:"#171717"
     minimumHeight: 430
     minimumWidth: 800
+    signal morabaSignal(var anObject)
+    signal mosalasSignal(var anObject)
+    signal dayereSignal(var anObject)
+    signal zarbdarSignal(var anObject)
     Rectangle{
         Rectangle {
             visible:true

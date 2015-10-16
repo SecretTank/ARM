@@ -1,17 +1,19 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include <transmission.h>
+#include <QQuickView>
+#include <QQuickItem>
 
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
+    QQmlApplicationEngine engine;
+    engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
+    QObject *item = engine.rootObjects().at(0);
 
-    QDeclarativeView view(QUrl::fromLocalFile("qrc:/main.qml"));
-    QObject *item = view.rootObject();
-
-    Transs myClass;
+    Transmission myClass;
     QObject::connect(item, SIGNAL(qmlSignal(QString)),
                      &myClass, SLOT(cppSlot(QString)));
 
-    view.show();
     return app.exec();
 }

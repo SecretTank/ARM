@@ -3,7 +3,7 @@ TEMPLATE = app
 QT += qml quick
 
 SOURCES += main.cpp \
-    tranmission.cpp
+    transmission.cpp
 
 RESOURCES += qml.qrc
 
@@ -14,4 +14,4 @@ QML_IMPORT_PATH =
 include(deployment.pri)
 
 HEADERS += \
-    tranmission.h
+    transmission.h
