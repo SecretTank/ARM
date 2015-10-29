@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include "transmission.h"
+#include <QObject>
 
 QT_BEGIN_NAMESPACE
 class QDialogButtonBox;

@@ -6,19 +6,16 @@
 #include <QTcpSocket>
 #include <QString>
 #include <QMessageBox>
+#include <QObject>
 
-QT_BEGIN_NAMESPACE
-class QTcpServer;
-class QTcpSocket;
-class QAction;
-class QDialogButtonBox;
-QT_END_NAMESPACE
 
-class Transmission : public QObject
+
+class Transmission : public QDialog
 {
     Q_OBJECT
+
 public:
-    Transmission(QObject *parent);
+    explicit Transmission(QWidget *parent=0);
     ~Transmission();
 public slots:
     void morabaaSlot();
