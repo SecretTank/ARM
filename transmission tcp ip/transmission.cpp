@@ -1,8 +1,7 @@
 #include "transmission.h"
 #include <string.h>
 
-Transmission::Transmission(QWidget *parent)
-    : QDialog(parent)
+Transmission::Transmission(QObject *parent) : QObject(parent)
 {
     connect(&tcpClient, SIGNAL(connected()), this, SLOT(connected()));
     connect(&tcpClient, SIGNAL(error(QAbstractSocket::SocketError)),

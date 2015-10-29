@@ -14,10 +14,11 @@ class QAction;
 class QDialogButtonBox;
 QT_END_NAMESPACE
 
-class Transmission : public QDialog
+class Transmission : public QObject
 {
+    Q_OBJECT
 public:
-    Transmission(QWidget *parent=0);
+    Transmission(QObject *parent);
     ~Transmission();
 public slots:
     void morabaaSlot();
