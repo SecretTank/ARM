@@ -4,6 +4,7 @@
 #include <QDialog>
 #include "transmission.h"
 #include <QObject>
+#include <QtWidgets>
 
 QT_BEGIN_NAMESPACE
 class QDialogButtonBox;
@@ -13,7 +14,7 @@ class QAction;
 class QLineEdit;
 QT_END_NAMESPACE
 
-class client : public QDialog
+class client : public QMainWindow
 {
     Q_OBJECT
 public:
@@ -31,6 +32,12 @@ private:
     QPushButton *mos;
     QPushButton *mor;
     QDialogButtonBox *buttonBox;
+    QLineEdit *ip_text;
+    QLabel *ip_label;
+    QHBoxLayout *ipLayout;
+    QHBoxLayout *controlBox;
+    QVBoxLayout *mainLayout;
+    QWidget *mainWidget;
 };
 
 #endif // CLIENT_H

@@ -1,8 +1,7 @@
-#include <QtWidgets>
 #include "client.h"
 
 client::client(QWidget *parent)
-    : QDialog(parent)
+    : QMainWindow(parent)
 {
     clientStatusLabel = new QLabel(tr("Client ready"));
     startButton = new QPushButton(tr("&Start"));
@@ -19,11 +18,22 @@ client::client(QWidget *parent)
     buttonBox->addButton(startButton, QDialogButtonBox::ActionRole);
     buttonBox->addButton(quitButton, QDialogButtonBox::RejectRole);
 
+
     connect(quitButton, SIGNAL(clicked()), this, SLOT(close()));
     connect(startButton,SIGNAL(clicked()),this,SLOT(start()));
 
-    QHBoxLayout *controlBox = new QHBoxLayout;
-    QVBoxLayout *mainLayout = new QVBoxLayout;
+    controlBox = new QHBoxLayout;
+    ipLayout  = new QHBoxLayout;
+    mainLayout = new QVBoxLayout;
+
+    //IP Input
+    ip_text = new QLineEdit ("192.168.88.24");
+    ip_label = new QLabel();
+    ip_label->setText("IP: ");
+    ipLayout->addWidget(ip_label);
+    ipLayout->addWidget(ip_text);
+
+
     controlBox->addWidget(z);
     controlBox->addWidget(d);
     controlBox->addWidget(mos);
@@ -31,10 +41,14 @@ client::client(QWidget *parent)
     mainLayout->addWidget(clientStatusLabel);
     mainLayout->addStretch(1);
     mainLayout->addSpacing(10);
+    mainLayout->addLayout(ipLayout);
     mainLayout->addLayout(controlBox);
     mainLayout->addWidget(buttonBox);
 
-    setLayout(mainLayout);
+    mainWidget = new QWidget;
+    mainWidget->setLayout(mainLayout);
+
+    setCentralWidget(mainWidget);
     setWindowTitle(tr("Loopback"));
 
 }
