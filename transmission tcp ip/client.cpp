@@ -5,7 +5,7 @@ client::client(QWidget *parent)
 {
     clientStatusLabel = new QLabel(tr("Client ready"));
     startButton = new QPushButton(tr("&Start"));
-    quitButton = new QPushButton(tr("&Quit"));
+    stopButton = new QPushButton(tr("&Quit"));
     z = new QPushButton(tr("z"));
     z->setEnabled(false);
     d = new QPushButton(tr("d"));
@@ -16,10 +16,10 @@ client::client(QWidget *parent)
     mos->setEnabled(false);
     buttonBox = new QDialogButtonBox;
     buttonBox->addButton(startButton, QDialogButtonBox::ActionRole);
-    buttonBox->addButton(quitButton, QDialogButtonBox::RejectRole);
+    buttonBox->addButton(stopButton, QDialogButtonBox::RejectRole);
 
 
-    connect(quitButton, SIGNAL(clicked()), this, SLOT(close()));
+    connect(stopButton, SIGNAL(clicked()), this, SLOT(stop()));
     connect(startButton,SIGNAL(clicked()),this,SLOT(start()));
 
     controlBox = new QHBoxLayout;
@@ -57,7 +57,7 @@ void client::start()
 {
     startButton->setEnabled(false);
     clientStatusLabel->setText(tr("Connecting"));
-    transmitter = new Transmission();
+    transmitter = new Transmission(ip_text->text());
     mos->setEnabled(true);
     mor->setEnabled(true);
     z->setEnabled(true);
@@ -66,6 +66,16 @@ void client::start()
     connect(z,SIGNAL(clicked()),transmitter,SLOT(zarbdarSlot()));
     connect(mor,SIGNAL(clicked()),transmitter,SLOT(morabaaSlot()));
     connect(d,SIGNAL(clicked()),transmitter,SLOT(dayereSlot()));
+    connect(transmitter,SIGNAL(errorConnection()),this,SLOT(stop()));
+}
+
+void client::stop()
+{
+    startButton->setEnabled(true);
+    mos->setEnabled(false);
+    mor->setEnabled(false);
+    z->setEnabled(false);
+    d->setEnabled(false);
 }
 
 client::~client()

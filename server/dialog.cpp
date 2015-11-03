@@ -46,7 +46,7 @@ void Dialog::start()
 
     bytesReceived = 0;
 
-    while (!tcpServer.isListening() && !tcpServer.listen(QHostAddress::LocalHost , 7778 )) {
+    while (!tcpServer.isListening() && !tcpServer.listen(QHostAddress::Any , 7778 )) {
         QMessageBox::StandardButton ret = QMessageBox::critical(this,
                                         tr("Loopback"),
                                         tr("Unable to start the test: %1.")

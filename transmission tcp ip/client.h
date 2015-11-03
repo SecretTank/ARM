@@ -22,11 +22,12 @@ public:
     ~client();
 public slots:
     void start();
+    void stop();
 private:
     QLabel *clientStatusLabel;
     Transmission* transmitter;
     QPushButton *startButton;
-    QPushButton *quitButton;
+    QPushButton *stopButton;
     QPushButton *z;
     QPushButton *d;
     QPushButton *mos;

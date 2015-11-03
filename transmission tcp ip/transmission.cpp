@@ -1,12 +1,12 @@
 #include "transmission.h"
 #include <string.h>
 
-Transmission::Transmission(QWidget *parent) : QDialog(parent)
+Transmission::Transmission(QString IP, QWidget *parent) : QDialog(parent)
 {
     connect(&tcpClient, SIGNAL(connected()), this, SLOT(connected()));
     connect(&tcpClient, SIGNAL(error(QAbstractSocket::SocketError)),
             this, SLOT(displayError(QAbstractSocket::SocketError)));
-    tcpClient.connectToHost(QHostAddress::LocalHost, 7778 );
+    tcpClient.connectToHost(QHostAddress(IP), 7778 );
 }
 
 void Transmission::morabaaSlot()
@@ -53,6 +53,7 @@ void Transmission::displayError(QAbstractSocket::SocketError socketError)
                              tr("The following error occurred: %1.")
                              .arg(tcpClient.errorString()));
     tcpClient.close();
+    emit errorConnection();
     //clientStatusLabel->setText(tr("Client ready"));
     //startButton->setEnabled(true);
 }

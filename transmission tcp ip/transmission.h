@@ -15,9 +15,11 @@ class Transmission : public QDialog
     Q_OBJECT
 
 public:
-    explicit Transmission(QWidget *parent=0);
+    explicit Transmission(QString IP,QWidget *parent=0);
     ~Transmission();
-public slots:
+signals:
+    void errorConnection();
+private slots:
     void morabaaSlot();
     void mosalasSlot();
     void dayereSlot();
