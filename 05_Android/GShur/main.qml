@@ -1,5 +1,8 @@
-import QtQuick 2.1
+import QtQuick 2.3
 import QtQuick.Window 2.0
+import QtQuick.Dialogs 1.2
+import QtQuick.Controls 1.2
+import QtQuick.Layouts 1.1
 
 Window {
     id:page
@@ -12,6 +15,39 @@ Window {
     signal mosalasSignal
     signal dayereSignal
     signal zarbdarSignal
+    Dialog{
+        id: setting_dialog
+        visible: true
+        //width: page.width * 0.4
+        //height : page.height * 0.2
+        contentItem: ColumnLayout
+        {
+            id : setting_layout
+            anchors.centerIn : parent
+            RowLayout{
+                id : ip_layout
+                Label
+                {
+                    text : "IP Address"
+                    Layout.leftMargin: page.height * 0.05
+                }
+
+                TextField{
+                    placeholderText: "172.16.156.204"
+                }
+            }
+            Button
+            {
+                text : "Ok"
+                Layout.alignment: Qt.AlignRight
+                Layout.rightMargin: page.height * 0.05
+                Layout.bottomMargin: page.height * 0.02
+                onClicked: setting_dialog.close()
+            }
+        }
+
+    }
+
     Rectangle{
         Rectangle {
             visible:true
@@ -26,6 +62,25 @@ Window {
                      font.pointSize: 20; font.bold: true
                      color:"#ffffff"
              }
+        }
+
+       Image
+        {
+            z:2
+            anchors.right: parent.right
+            anchors.top: parent.top
+            anchors.topMargin: page.width * 0.01
+            anchors.rightMargin: page.width * 0.01
+            source: "qrc:/Resources/settings.png"
+            id:setting_image
+            width : page.width * 0.06
+            height: setting_image.width
+            MouseArea
+            {
+                id:setting_mousearea
+                anchors.fill: parent
+                onClicked: {console.log("Hello Boys!"),setting_dialog.open()}
+            }
         }
 
         color:"#171717"

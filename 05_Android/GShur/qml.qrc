@@ -15,5 +15,6 @@
         <file>Joystick.qml</file>
         <file>Cell.qml</file>
         <file>CamLCD.qml</file>
+        <file>Resources/settings.png</file>
     </qresource>
 </RCC>
