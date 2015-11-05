@@ -22,6 +22,7 @@ Window {
     signal zarbdarSignal
     signal startSignal(string IP)
     signal keySignal(string key)
+    signal noneSignal
     Dialog{
         id: setting_dialog
         visible: false
@@ -123,11 +124,8 @@ Window {
         Cell{iSource: "zarbdar.png";iSource2: "zarbdar_r.png";x:parent.width*0.848;y:432.5/500*parent.height;z:1
             ;onButtonClicked:page.zarbdarSignal()}
         StartBtn{x:parent.width*0.6;y:370/500*parent.height;z:1 ;onButtonClicked:page.startSignal(page.ipAddress)}
-<<<<<<< HEAD
-        Joystick{x:30;y:parent.height*2.8/5;z:1; }
-=======
-        Joystick{x:0;y:parent.height*3.2/5;z:1;onSendKey: page.keySignal(key)}
->>>>>>> 34d9679588b6033c13eb26a69dca6b37c2e0e08a
+
+        Joystick{x:30;y:parent.height*2.8/5;z:1;onSendKey: page.keySignal(key); onSendNone: noneSignal()}
         CamLCD{}
     }
 }

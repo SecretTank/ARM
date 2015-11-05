@@ -3,6 +3,7 @@ Item{
     id:container
     signal touchUpdated(int xx,int yy)
     signal sendKey(string key)
+    signal sendNone
     Rectangle {
         id: joysticks
         Image {
@@ -44,7 +45,10 @@ Item{
                 onPressed: {
                     returnAnimation.stop()
                 }
-                onReleased: returnAnimation.restart()
+                onReleased: {
+                     sendNone()
+                    returnAnimation.restart()
+                }
                 onTouchUpdated: {
                     var angle2=Math.atan2(-thumb.anchors.verticalCenterOffset,thumb.anchors.horizontalCenterOffset)/3.14159265*180
                     //console.log(angle2)
@@ -68,7 +72,8 @@ Item{
 
                     }
                     else{
-                           console.log("none")
+                        console.log("none")
+                        sendNone()
                     }
                     container.touchUpdated(xx,yy)
                     if (fingerOutOfBounds) {
