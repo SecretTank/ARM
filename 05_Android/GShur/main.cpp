@@ -11,11 +11,12 @@ int main(int argc, char *argv[])
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
     QObject *item = engine.rootObjects().first();
 
-    Transmission myClass;
-    QObject::connect(item, SIGNAL(morabaSignal()), &myClass, SLOT(morabaaSlot()));
-    QObject::connect(item, SIGNAL(mosalasSignal()), &myClass, SLOT(mosalasSlot()));
-    QObject::connect(item, SIGNAL(dayereSignal()), &myClass, SLOT(dayereSlot()));
-    QObject::connect(item, SIGNAL(zarbdarSignal()), &myClass, SLOT(zarbdarSlot()));
+    Transmission channel;
+    QObject::connect(item, SIGNAL(morabaSignal()), &channel, SLOT(morabaaSlot()));
+    QObject::connect(item, SIGNAL(mosalasSignal()), &channel, SLOT(mosalasSlot()));
+    QObject::connect(item, SIGNAL(dayereSignal()), &channel, SLOT(dayereSlot()));
+    QObject::connect(item, SIGNAL(zarbdarSignal()), &channel, SLOT(zarbdarSlot()));
+    QObject::connect(item, SIGNAL(startSignal(QString)), &channel, SLOT(start(QString)));
 
     return app.exec();
 }

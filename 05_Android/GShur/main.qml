@@ -12,11 +12,15 @@ Window {
     color:"#171717"
     minimumHeight: 430
     minimumWidth: 800
+    //Properties:
+    property string ipAddress: "172.16.34.204"
+
+    //Signals:
     signal morabaSignal
     signal mosalasSignal
     signal dayereSignal
     signal zarbdarSignal
-    signal startSignal
+    signal startSignal(string IP)
     Dialog{
         id: setting_dialog
         visible: false
@@ -43,7 +47,8 @@ Window {
                     }
 
                     TextField{
-                        placeholderText: "172.16.156.204"
+                        id : ip_textfield
+                        placeholderText: ipAddress
                     }
                 }
                 Button
@@ -51,7 +56,7 @@ Window {
                     Layout.alignment: Qt.AlignRight
                     Layout.rightMargin: page.height * 0.01
                     Layout.bottomMargin: page.height * 0.02
-                    onClicked: setting_dialog.close()
+                    onClicked: {page.ipAddress = ip_textfield.text ; setting_dialog.close()}
                     style: ButtonStyle{
                             background: Rectangle{ implicitWidth: 75; implicitHeight:25;
                                 color: "#5b595c"}
@@ -116,8 +121,8 @@ Window {
             ;onButtonClicked:page.morabaSignal()}
         Cell{iSource: "zarbdar.png";iSource2: "zarbdar_r.png";x:parent.width*0.848;y:432.5/500*parent.height;z:1
             ;onButtonClicked:page.zarbdarSignal()}
-        StartBtn{x:parent.width*0.6;y:370/500*parent.height;z:1 ;onButtonClicked:page.zarbdarSignal()}
-        Joystick{x:0;y:parent.height*3.2/5;z:1}
+        StartBtn{x:parent.width*0.6;y:370/500*parent.height;z:1 ;onButtonClicked:page.startSignal(page.ipAddress)}
+        Joystick{x:0;y:parent.height*3.2/5;z:1; }
         CamLCD{}
     }
 }
