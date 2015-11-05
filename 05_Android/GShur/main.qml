@@ -122,7 +122,7 @@ Window {
         Cell{iSource: "zarbdar.png";iSource2: "zarbdar_r.png";x:parent.width*0.848;y:432.5/500*parent.height;z:1
             ;onButtonClicked:page.zarbdarSignal()}
         StartBtn{x:parent.width*0.6;y:370/500*parent.height;z:1 ;onButtonClicked:page.startSignal(page.ipAddress)}
-        Joystick{x:0;y:parent.height*3.2/5;z:1; }
+        Joystick{x:30;y:parent.height*2.8/5;z:1; }
         CamLCD{}
     }
 }

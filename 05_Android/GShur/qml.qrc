@@ -19,5 +19,7 @@
         <file>StartBtn.qml</file>
         <file>Resources/powerBtnOff.png</file>
         <file>Resources/powerBtnOn.png</file>
+        <file>arrow.png</file>
+        <file>blueArrow.png</file>
     </qresource>
 </RCC>

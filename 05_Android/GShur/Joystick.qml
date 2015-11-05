@@ -51,15 +51,19 @@ Item{
                     if(angle2>-45&&angle2<45){
                         console.log("right")
                     }
-                    if(angle2>45&&angle2<135){
+                    else if(angle2>45&&angle2<135){
                         console.log("up")
                     }
-                    if(angle2>135||angle2<-135){
+                    else if(angle2>135||angle2<-135){
                         console.log("left")
                     }
-                    if(angle2<-45&&angle2>-135){
+                    else if(angle2<-45&&angle2>-135){
                         console.log("down")
                     }
+
+                    }
+                    else{
+                           console.log("none")
                     }
                     container.touchUpdated(xx,yy)
                     if (fingerOutOfBounds) {
@@ -81,6 +85,120 @@ Item{
                 width: joystick.width/2.5
                 anchors.centerIn: parent
             }
+
+            Image {
+                id: arrow
+                source: "arrow.png"
+                smooth: true
+                z:1
+                height: joystick.height/5
+                width: joystick.width/2.5
+                anchors.centerIn: parent
+                anchors.verticalCenterOffset: -parent.height/1.75
+            }
+            Image {
+                id: blow_arrow
+                source: "blueArrow.png"
+                smooth: true
+                z:0
+                height: joystick.height/5
+                width: joystick.width/2.5
+                anchors.centerIn: parent
+                anchors.verticalCenterOffset: -parent.height/1.75
+            }
+            Image {
+                id: blow_arrow_right
+                source: "blueArrow.png"
+                smooth: true
+                z:0
+                transform: Rotation{
+                    angle:90
+                }
+
+                height: joystick.height/5
+                width: joystick.width/2.5
+                anchors.centerIn: parent
+                anchors.verticalCenterOffset:-parent.height/10
+                anchors.horizontalCenterOffset: parent.width/1.18
+            }
+
+            Image {
+                id: arrow_right
+                source: "arrow.png"
+                smooth: true
+                z:1
+                transform: Rotation{
+                    angle:90
+                }
+
+                height: joystick.height/5
+                width: joystick.width/2.5
+                anchors.centerIn: parent
+                anchors.verticalCenterOffset:-parent.height/10
+                anchors.horizontalCenterOffset: parent.width/1.18
+            }
+            Image {
+                id: blow_arrow_left
+                source: "blueArrow.png"
+                smooth: true
+                z:0
+                transform: Rotation{
+                    angle:-90
+                }
+
+                height: joystick.height/5
+                width: joystick.width/2.5
+                anchors.centerIn: parent
+                anchors.verticalCenterOffset:parent.width/3.4+1
+                anchors.horizontalCenterOffset: -parent.width/2.25
+            }
+            Image {
+                id: arrow_left
+                source: "arrow.png"
+                smooth: true
+                z:1
+                transform: Rotation{
+                    angle:-90
+                }
+
+                height: joystick.height/5
+                width: joystick.width/2.5
+                anchors.centerIn: parent
+                anchors.verticalCenterOffset:parent.width/3.4+1
+                anchors.horizontalCenterOffset: -parent.width/2.25
+            }
+
+            Image {
+                id: blow_arrow_bot
+                source: "blueArrow.png"
+                smooth: true
+                z:0
+                transform: Rotation{
+                    angle:180
+                }
+
+                height: joystick.height/5
+                width: joystick.width/2.5
+                anchors.centerIn: parent
+               anchors.verticalCenterOffset:parent.width/1.3
+                anchors.horizontalCenterOffset: parent.width/2.65
+            }
+            Image {
+                id: arrow_bot
+                source: "arrow.png"
+                smooth: true
+                z:1
+                transform: Rotation{
+                    angle:180
+                }
+
+                height: joystick.height/5
+                width: joystick.width/2.5
+                anchors.centerIn: parent
+               anchors.verticalCenterOffset:parent.width/1.3
+                anchors.horizontalCenterOffset: parent.width/2.65
+            }
+
 
         }
     }
