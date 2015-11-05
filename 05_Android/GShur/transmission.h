@@ -5,6 +5,7 @@
 #include <QTcpSocket>
 #include <QString>
 #include <QObject>
+#include <QTimer>
 
 class Transmission : public QObject
 {
@@ -24,9 +25,15 @@ private slots:
     void start(QString IP);
     void startTransfer(char* command);
     void displayError(QAbstractSocket::SocketError socketError);
+    void sendJoystick(QString key);
+    void sendBuffer();
+    void stopJoystick();
 private:
     QTcpSocket tcpClient;
     QString message;
+    QTimer *bufferTimer;
+    char charBuffer;
+    bool isBufferEmpty;
 };
 
 #endif // TRANSMISSION_H
