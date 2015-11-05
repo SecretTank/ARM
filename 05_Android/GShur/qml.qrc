@@ -16,5 +16,8 @@
         <file>Cell.qml</file>
         <file>CamLCD.qml</file>
         <file>Resources/settings.png</file>
+        <file>StartBtn.qml</file>
+        <file>Resources/powerBtnOff.png</file>
+        <file>Resources/powerBtnOn.png</file>
     </qresource>
 </RCC>

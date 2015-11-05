@@ -3,6 +3,7 @@ import QtQuick.Window 2.0
 import QtQuick.Dialogs 1.2
 import QtQuick.Controls 1.2
 import QtQuick.Layouts 1.1
+import QtQuick.Controls.Styles 1.2
 
 Window {
     id:page
@@ -15,38 +16,59 @@ Window {
     signal mosalasSignal
     signal dayereSignal
     signal zarbdarSignal
+    signal startSignal
     Dialog{
         id: setting_dialog
-        visible: true
+        visible: false
+
         //width: page.width * 0.4
         //height : page.height * 0.2
-        contentItem: ColumnLayout
-        {
-            id : setting_layout
-            anchors.centerIn : parent
-            RowLayout{
-                id : ip_layout
-                Label
-                {
-                    text : "IP Address"
-                    Layout.leftMargin: page.height * 0.05
-                }
-
-                TextField{
-                    placeholderText: "172.16.156.204"
-                }
-            }
-            Button
+        contentItem: Rectangle{
+            id:setting_container
+            color: "#262626"
+            width:page.width*0.5
+            height:page.height*0.35
+            ColumnLayout
             {
-                text : "Ok"
-                Layout.alignment: Qt.AlignRight
-                Layout.rightMargin: page.height * 0.05
-                Layout.bottomMargin: page.height * 0.02
-                onClicked: setting_dialog.close()
+                id : setting_layout
+                anchors.centerIn : parent
+
+                RowLayout{
+                    id : ip_layout
+                    Label
+                    {
+                        text : "IP Address"
+                        color: "#f3f4f3";
+                        Layout.leftMargin: page.height * 0.05
+                    }
+
+                    TextField{
+                        placeholderText: "172.16.156.204"
+                    }
+                }
+                Button
+                {
+                    Layout.alignment: Qt.AlignRight
+                    Layout.rightMargin: page.height * 0.01
+                    Layout.bottomMargin: page.height * 0.02
+                    onClicked: setting_dialog.close()
+                    style: ButtonStyle{
+                            background: Rectangle{ implicitWidth: 75; implicitHeight:25;
+                                color: "#5b595c"}
+                            //label : Text{color: "#f3f4f3"}
+                                    //text:"is It"}
+                            label : Text{
+                                color: "#f3f4f3";
+                                text:"Ok";
+                                verticalAlignment: Text.AlignVCenter
+                                horizontalAlignment: Text.AlignHCenter
+                            }
+                        }
+                }
             }
         }
-
     }
+
 
     Rectangle{
         Rectangle {
@@ -56,7 +78,7 @@ Window {
              y:0
              Text {
                      id: helloText
-                     text: "#0056"
+                     text: "#1026"
                      y: 10
                      anchors.horizontalCenter: page.horizontalCenter
                      font.pointSize: 20; font.bold: true
@@ -94,6 +116,7 @@ Window {
             ;onButtonClicked:page.morabaSignal()}
         Cell{iSource: "zarbdar.png";iSource2: "zarbdar_r.png";x:parent.width*0.848;y:432.5/500*parent.height;z:1
             ;onButtonClicked:page.zarbdarSignal()}
+        StartBtn{x:parent.width*0.6;y:370/500*parent.height;z:1 ;onButtonClicked:page.zarbdarSignal()}
         Joystick{x:0;y:parent.height*3.2/5;z:1}
         CamLCD{}
     }
