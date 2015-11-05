@@ -2,6 +2,7 @@ import QtQuick 2.1
 Item{
     id:container
     signal touchUpdated(int xx,int yy)
+    signal sendKey(string key)
     Rectangle {
         id: joysticks
         Image {
@@ -50,15 +51,19 @@ Item{
                     if(fingerDistance2 > distanceBound2/4){
                     if(angle2>-45&&angle2<45){
                         console.log("right")
+                        sendKey("r")
                     }
                     else if(angle2>45&&angle2<135){
                         console.log("up")
+                        sendKey("u")
                     }
                     else if(angle2>135||angle2<-135){
                         console.log("left")
+                        sendKey("l")
                     }
                     else if(angle2<-45&&angle2>-135){
                         console.log("down")
+                        sendKey("d")
                     }
 
                     }
