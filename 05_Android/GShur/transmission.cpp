@@ -1,43 +1,69 @@
 #include "transmission.h"
 #include <string.h>
 
-#define JOYSTICK_DELAY 1000
+#define JOYSTICK_DELAY 100
 
 Transmission::Transmission(QObject *parent) : QObject(parent)
 {
     //init
     charBuffer = '0';
     isBufferEmpty = true;
+    commandMode=false;
 
     connect(&tcpClient, SIGNAL(connected()), this, SLOT(connected()));
     connect(&tcpClient, SIGNAL(error(QAbstractSocket::SocketError)),
             this, SLOT(displayError(QAbstractSocket::SocketError)));
     bufferTimer = new QTimer;
+    bufferTimer->setSingleShot(true);
     connect(bufferTimer, SIGNAL(timeout()), this, SLOT(sendBuffer()));
     bufferTimer->setInterval(JOYSTICK_DELAY);
 }
 
+//If rectangle press controller goes to command mode
+//in command mode two key recieve and iterpreted a command
+//and generate commandByte as follow list
+//Key           Dec Binary
+//Triangle  =   1   01
+//Circle    =   2   10
+//Cross     =   3   11
+
+
 void Transmission::morabaaSlot()
 {
-    message = "morabaa";
+    message = "k";
+    commandMode=true;
+    commandIndex=0;
     startTransfer(message.toUtf8().data());
 }
 
 void Transmission::mosalasSlot()
-{
-    message = "mosalas";
+{\
+    message = "s";
     startTransfer(message.toUtf8().data());
+    /*if (!commandMode)
+    {
+        message = "s";
+        startTransfer(message.toUtf8().data());
+    }
+    else
+    {
+        commandByte |= 3 << commandIndex;
+        if (commandIndex < 2)
+        {
+            commandIndex++;
+        }
+    }*/
 }
 
 void Transmission::dayereSlot()
 {
-    message = "dayere";
+    message = "z";
     startTransfer(message.toUtf8().data());
 }
 
 void Transmission::zarbdarSlot()
 {
-    message = "zarbdar";
+    message = "t";
     startTransfer(message.toUtf8().data());
 }
 
@@ -46,7 +72,7 @@ Transmission::~Transmission()
     tcpClient.close();
 }
 
-void Transmission::startTransfer(char* command)
+void Transmission::startTransfer(const char* command)
 {
     int bytesToWrite = tcpClient.write(command);
 }
@@ -80,7 +106,7 @@ void Transmission::sendJoystick(QString key)
     {
         charBuffer = key.toUtf8().data()[0];
         isBufferEmpty = false;
-        bufferTimer->start();
+        bufferTimer->start(JOYSTICK_DELAY);
     }
     else
     {
@@ -90,14 +116,20 @@ void Transmission::sendJoystick(QString key)
 
 void Transmission::sendBuffer()
 {
-    char sendBuffer[10];
-    qDebug() << "Joystick: " << charBuffer;
-    sprintf(sendBuffer,"%c", charBuffer);
-    startTransfer(sendBuffer);
+    if (!isBufferEmpty)
+    {
+        char sendBuffer[10];
+        qDebug() << "Joystick: " << charBuffer;
+        sprintf(sendBuffer,"%c", charBuffer);
+        isBufferEmpty = true;
+        startTransfer(sendBuffer);
+    }
 }
 
 void Transmission::stopJoystick()
 {
     bufferTimer->stop();
+    charBuffer = 't';
+    startTransfer("t");
     isBufferEmpty = true;
 }

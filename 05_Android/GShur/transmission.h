@@ -23,7 +23,7 @@ private slots:
     void zarbdarSlot();
     void connected();
     void start(QString IP);
-    void startTransfer(char* command);
+    void startTransfer(const char* command);
     void displayError(QAbstractSocket::SocketError socketError);
     void sendJoystick(QString key);
     void sendBuffer();
@@ -34,6 +34,9 @@ private:
     QTimer *bufferTimer;
     char charBuffer;
     bool isBufferEmpty;
+    bool commandMode;
+    int commandIndex;
+    short commandByte;
 };
 
 #endif // TRANSMISSION_H

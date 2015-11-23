@@ -54,19 +54,19 @@ Item{
                     //console.log(angle2)
                     if(fingerDistance2 > distanceBound2/4){
                     if(angle2>-45&&angle2<45){
-                        console.log("right")
+                        //console.log("right")
                         sendKey("r")
                     }
                     else if(angle2>45&&angle2<135){
-                        console.log("up")
+                        //console.log("up")
                         sendKey("u")
                     }
                     else if(angle2>135||angle2<-135){
-                        console.log("left")
+                        //console.log("left")
                         sendKey("l")
                     }
                     else if(angle2<-45&&angle2>-135){
-                        console.log("down")
+                        //console.log("down")
                         sendKey("d")
                     }
 

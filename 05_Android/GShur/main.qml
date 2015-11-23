@@ -13,7 +13,7 @@ Window {
     minimumHeight: 430
     minimumWidth: 800
     //Properties:
-    property string ipAddress: "172.16.34.204"
+    property string ipAddress: "192.168.1.101"
 
     //Signals:
     signal morabaSignal
@@ -27,8 +27,8 @@ Window {
         id: setting_dialog
         visible: false
 
-        //width: page.width * 0.4
-        //height : page.height * 0.2
+        width: page.width * 0.4
+        height : page.height * 0.2
         contentItem: Rectangle{
             id:setting_container
             color: "#262626"
@@ -126,6 +126,6 @@ Window {
         StartBtn{x:parent.width*0.6;y:370/500*parent.height;z:1 ;onButtonClicked:page.startSignal(page.ipAddress)}
 
         Joystick{x:30;y:parent.height*2.8/5;z:1;onSendKey: page.keySignal(key); onSendNone: noneSignal()}
-        CamLCD{}
+        //CamLCD{}
     }
 }
