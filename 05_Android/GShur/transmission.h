@@ -5,6 +5,9 @@
 #include <QTcpSocket>
 #include <QString>
 #include <QObject>
+#include <QVector>
+#include <stdio.h>
+#include <stdlib.h>
 
 class Transmission : public QObject
 {
@@ -26,7 +29,9 @@ private slots:
     void displayError(QAbstractSocket::SocketError socketError);
 private:
     QTcpSocket tcpClient;
-    QString message;
+    QVector<QString> stack;
+    int code;
+    char code_char[4];
 };
 
 #endif // TRANSMISSION_H
