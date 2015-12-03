@@ -11,13 +11,16 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = oscilloscop
 TEMPLATE = app
 
+LIBS += -lGL\
+        -lGLU\
+        -lglut
 
 SOURCES += main.cpp\
         osil.cpp \
-    renderarea.cpp
+    line.cpp
 
 HEADERS  += osil.h \
-    renderarea.h
+    line.h
 
 LIBS += -lpthread
 #INCLUDEPATH +=

@@ -1,5 +1,5 @@
-#include "renderarea.h"
 #include "osil.h"
+
 #include <QtWidgets>
 #include <string>
 #include <math.h>
@@ -20,16 +20,7 @@
 osil::osil()
 {
     serial = new QSerialPort(this);
-    renderArea = new RenderArea;
-    status = new QLabel("disconnected!");
-    QGridLayout *mainLayout = new QGridLayout;
     x = 0;
-    y = QVector<int> (200);
-
-    mainLayout->addWidget(renderArea, 0, 0, 1, 4);
-    mainLayout->addWidget(status, 3 , 0);
-    setLayout(mainLayout);
-    setWindowTitle(tr("** MY OSIL **"));
     openSerialPort();
     turn = find_backR;
     connect(serial,SIGNAL(readyRead()),this,SLOT(readData()));
@@ -37,14 +28,13 @@ osil::osil()
 
 void osil::update_osil()
 {
-    int last_y;
-    last_y = y[x];
     y[x] = voltage/4096.0 * 350.0;
-    renderArea->setCoordinate(x,y[x],last_y);
-    if(x>173)
+
+    if(x>199)
         x=0;
     else
         x++;
+
 }
 
 void osil::openSerialPort()
@@ -56,11 +46,8 @@ void osil::openSerialPort()
     serial->setStopBits(stop_bits);
     serial->setStopBits(stop_bits);
     serial->setFlowControl(flow_control);
-    if (serial->open(QIODevice::ReadWrite)) {
-        status->setText("connected!");
-    } else {
+    if (serial->open(QIODevice::ReadWrite));else {
         QMessageBox::critical(this, tr("Error"), serial->errorString());
-        status->setText("disconnected!");
     }
 }
 
@@ -98,4 +85,3 @@ osil::~osil()
     if(serial->isOpen())
         closeSerialPort();
 }
-
