@@ -17,6 +17,8 @@ int main(int argc, char *argv[])
     QObject::connect(item, SIGNAL(dayereSignal()), &channel, SLOT(dayereSlot()));
     QObject::connect(item, SIGNAL(zarbdarSignal()), &channel, SLOT(zarbdarSlot()));
     QObject::connect(item, SIGNAL(startSignal(QString)), &channel, SLOT(start(QString)));
+    QObject::connect(item, SIGNAL(keySignal(QString)), &channel, SLOT(sendJoystick(QString)));
+    QObject::connect(item, SIGNAL(noneSignal()), &channel, SLOT(stopJoystick()));
 
     return app.exec();
 }

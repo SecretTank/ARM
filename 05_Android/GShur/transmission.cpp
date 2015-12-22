@@ -1,12 +1,32 @@
 #include "transmission.h"
 #include <string.h>
 
+#define JOYSTICK_DELAY 100
+
 Transmission::Transmission(QObject *parent) : QObject(parent)
 {
+    //init
+    charBuffer = '0';
+    isBufferEmpty = true;
+    commandMode=false;
+
     connect(&tcpClient, SIGNAL(connected()), this, SLOT(connected()));
     connect(&tcpClient, SIGNAL(error(QAbstractSocket::SocketError)),
             this, SLOT(displayError(QAbstractSocket::SocketError)));
+    bufferTimer = new QTimer;
+    bufferTimer->setSingleShot(true);
+    connect(bufferTimer, SIGNAL(timeout()), this, SLOT(sendBuffer()));
+    bufferTimer->setInterval(JOYSTICK_DELAY);
 }
+
+//If rectangle press controller goes to command mode
+//in command mode two key recieve and iterpreted a command
+//and generate commandByte as follow list
+//Key           Dec Binary
+//Triangle  =   1   01
+//Circle    =   2   10
+//Cross     =   3   11
+
 
 void Transmission::morabaaSlot()
 {
@@ -19,93 +39,43 @@ void Transmission::morabaaSlot()
 
 void Transmission::mosalasSlot()
 {
-    switch(stack.size()){
-    case 0:
-        code = 0xf1f;
-        itoa(code,code_char,4);
-        startTransfer(code_char);
-        code = 0xfff;
-        break;
-    case 1:
-        stack.push_back("mosalas");
-        code = code - 0x0e0;
-        break;
-    case 2:
-        code = code - 0xe00;
-        itoa(code,code_char,4);
-        startTransfer(code_char);
-        stack.pop_back();
-        stack.pop_back();
-        code = 0xfff;
-        break;
-    default:
-        code = 0xf1f;
-        itoa(code,code_char,4);
-        startTransfer(code_char);
-        code = 0xfff;
-        break;
+
+    message = "k";
+    commandMode=true;
+    commandIndex=0;
+    startTransfer(message.toUtf8().data());
+}
+
+void Transmission::mosalasSlot()
+{\
+    message = "s";
+    startTransfer(message.toUtf8().data());
+    /*if (!commandMode)
+    {
+        message = "s";
+        startTransfer(message.toUtf8().data());
     }
+    else
+    {
+        commandByte |= 3 << commandIndex;
+        if (commandIndex < 2)
+        {
+            commandIndex++;
+        }
+    }*/
 }
 
 void Transmission::dayereSlot()
 {
-    switch(stack.size()){
-    case 0:
-        code = 0xf2f;
-        itoa(code,code_char,4);
-        startTransfer(code_char);
-        code = 0xfff;
-        break;
-    case 1:
-        stack.push_back("dayere");
-        code = code - 0x0d0;
-        break;
-    case 2:
-        code = code - 0xd00;
-        itoa(code,code_char,4);
-        startTransfer(code_char);
-        stack.pop_back();
-        stack.pop_back();
-        code = 0xfff;
-        break;
-    default:
-        code = 0xf2f;
-        itoa(code,code_char,4);
-        startTransfer(code_char);
-        code = 0xfff;
-        break;
-    }
-    }
+
+    message = "z";
+    startTransfer(message.toUtf8().data());
 }
 
 void Transmission::zarbdarSlot()
 {
-    switch(stack.size()){
-    case 0:
-        code = 0xf3f;
-        itoa(code,code_char,4);
-        startTransfer(code_char);
-        code = 0xfff;
-        break;
-    case 1:
-        stack.push_back("zarbdar");
-        code = code - 0x0c0;
-        break;
-    case 2:
-        code = code - 0xc00;
-        itoa(code,code_char,4);
-        startTransfer(code_char);
-        stack.pop_back();
-        stack.pop_back();
-        code = 0xfff;
-        break;
-    default:
-        code = 0xf3f;
-        itoa(code,code_char,4);
-        startTransfer(code_char);
-        code = 0xfff;
-        break;
-    }
+    message = "t";
+    startTransfer(message.toUtf8().data());
 }
 
 Transmission::~Transmission()
@@ -113,10 +83,9 @@ Transmission::~Transmission()
     tcpClient.close();
 }
 
-void Transmission::startTransfer(char* command)
+void Transmission::startTransfer(const char* command)
 {
     int bytesToWrite = tcpClient.write(command);
-    qDebug() << bytesToWrite;
 }
 
 void Transmission::displayError(QAbstractSocket::SocketError socketError)
@@ -139,4 +108,38 @@ void Transmission::start(QString IP)
 {
     tcpClient.connectToHost(QHostAddress(IP), 7778 );
     qDebug() << "connecting to " << IP;
+}
+
+void Transmission::sendJoystick(QString key)
+{
+    if (isBufferEmpty)
+    {
+        charBuffer = key.toUtf8().data()[0];
+        isBufferEmpty = false;
+        bufferTimer->start(JOYSTICK_DELAY);
+    }
+    else
+    {
+        charBuffer = key.toUtf8().data()[0];
+    }
+}
+
+void Transmission::sendBuffer()
+{
+    if (!isBufferEmpty)
+    {
+        char sendBuffer[10];
+        qDebug() << "Joystick: " << charBuffer;
+        sprintf(sendBuffer,"%c", charBuffer);
+        isBufferEmpty = true;
+        startTransfer(sendBuffer);
+    }
+}
+
+void Transmission::stopJoystick()
+{
+    bufferTimer->stop();
+    charBuffer = 't';
+    startTransfer("t");
+    isBufferEmpty = true;
 }

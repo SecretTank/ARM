@@ -8,6 +8,7 @@
 #include <QVector>
 #include <stdio.h>
 #include <stdlib.h>
+#include <QTimer>
 
 class Transmission : public QObject
 {
@@ -25,13 +26,25 @@ private slots:
     void zarbdarSlot();
     void connected();
     void start(QString IP);
-    void startTransfer(char* command);
+    void startTransfer(const char* command);
     void displayError(QAbstractSocket::SocketError socketError);
+    void sendJoystick(QString key);
+    void sendBuffer();
+    void stopJoystick();
 private:
     QTcpSocket tcpClient;
+
     QVector<QString> stack;
     int code;
     char code_char[4];
+
+    QString message;
+    QTimer *bufferTimer;
+    char charBuffer;
+    bool isBufferEmpty;
+    bool commandMode;
+    int commandIndex;
+    short commandByte;
 };
 
 #endif // TRANSMISSION_H

@@ -13,7 +13,7 @@ Window {
     minimumHeight: 430
     minimumWidth: 800
     //Properties:
-    property string ipAddress: "172.16.34.204"
+    property string ipAddress: "192.168.1.101"
 
     //Signals:
     signal morabaSignal
@@ -21,12 +21,14 @@ Window {
     signal dayereSignal
     signal zarbdarSignal
     signal startSignal(string IP)
+    signal keySignal(string key)
+    signal noneSignal
     Dialog{
         id: setting_dialog
         visible: false
 
-        //width: page.width * 0.4
-        //height : page.height * 0.2
+        width: page.width * 0.4
+        height : page.height * 0.2
         contentItem: Rectangle{
             id:setting_container
             color: "#262626"
@@ -122,7 +124,8 @@ Window {
         Cell{iSource: "zarbdar.png";iSource2: "zarbdar_r.png";x:parent.width*0.848;y:432.5/500*parent.height;z:1
             ;onButtonClicked:page.zarbdarSignal()}
         StartBtn{x:parent.width*0.6;y:370/500*parent.height;z:1 ;onButtonClicked:page.startSignal(page.ipAddress)}
-        Joystick{x:0;y:parent.height*3.2/5;z:1; }
-        CamLCD{}
+
+        Joystick{x:30;y:parent.height*2.8/5;z:1;onSendKey: page.keySignal(key); onSendNone: noneSignal()}
+        //CamLCD{}
     }
 }
