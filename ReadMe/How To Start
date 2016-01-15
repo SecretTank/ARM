@@ -1,7 +1,7 @@
-1. First Download CMSIS Library from stm website /*TODO*/
+1. Download CMSIS Library (it is named STM32CubeF4 for stm32 MCU families) from stm website or http://www.st.com/web/en/catalog/tools/PF259242
 2. Read Install_CMSIS file in the current directory and perform the actions
-3. open preparing.sh file with your favourite editor (for example gedit). Try Drag & Drop
-4. change bijan username to your linux username
+3. open preparing.sh file with your favorite editor (for example gedit). Try Drag & Drop
+4. change bijan username to your Linux username
 5. run preparing.sh from your terminal with root access aka sudo preparing.sh
 6. Enjoy
 
