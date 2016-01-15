@@ -1,2 +1,2 @@
-# ARM_Class
-ARM Example Project in Linux
+# ARM
+ARM Example Projects in Linux
