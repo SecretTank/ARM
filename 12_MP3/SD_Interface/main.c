@@ -29,13 +29,26 @@ void dsco_led_init()
 	GPIOD->MODER |= GPIO_MODER_MODER12_0 | GPIO_MODER_MODER13_0  | GPIO_MODER_MODER14_0  | GPIO_MODER_MODER15_0 ;
 }
 
+//so you have to find first which one was triggered
+void UART4_IRQHandler(void) {
+    //Check if interrupt was because data is received
+    uint8_t data;
+	GPIOD->ODR ^= DISCOF4_LED_RED;
+    if ( UART4->SR & USART_SR_RXNE ) 
+    {
+		UART4->SR &= ~USART_SR_RXNE;
+    	data = UART4->DR;
+        transmitByte(data);
+    }
+}
+
 
 /*-----------------------------------------------------------------------*/
 /* Wait for card ready                                                   */
 /*-----------------------------------------------------------------------*/
 // 1:Ready, 0:Timeout
 //wt:	 Timeout [ms]
-int wait_ready (	unsigned int wt )
+int wait_ready (unsigned int wt )
 {
 	uint8_t d;
 	
@@ -87,43 +100,65 @@ void main ()
 	dsco_led_init();
 	spi_init();
 	usart_init();
-	GPIOD->MODER |= GPIO_MODER_MODER0_0; // ENABLE CHIP SELECT (PD0)
+	GPIOD->OTYPER |= GPIO_OTYPER_OT_0; //Open Dran : 0 : 0 , 1: Z
 	
 	printString("Hello World\r\n");
+	int test_number = 0;
 	
-	
-	uint8_t read_data;
+	uint8_t n;
 	GPIOD->ODR ^= DISCOF4_LED_GREEN;
 	
 	ms_delay(400);
 	while (TRUE)
 	{
 		//GPIOD->ODR ^= 1 << 13;
-		deselect();
-		if (!select())
-		{ 
-			GPIOD->ODR ^= DISCOF4_LED_RED;
-		}
-		spi_send(0x00);
-		GPIOD->ODR ^= DISCOF4_LED_BLUE;
-		DEBUG_BYTE_USART(spi_send( 0x40 | 0x00));	/* Start + command index */
-		DEBUG_BYTE_USART(spi_send(0));	 			/* Argument[31..24] */
-		DEBUG_BYTE_USART(spi_send(0));				/* Argument[23..16] */
-		DEBUG_BYTE_USART(spi_send(0));				/* Argument[15..8] */
-		DEBUG_BYTE_USART(spi_send(0));				/* Argument[7..0] */
-		DEBUG_BYTE_USART(spi_send(0x95));			/* CRC */
-
-		/* Receive command resp */
-		uint8_t res;
-		int n = 10;								/* Wait for response (10 bytes max) */
-		do 
+		/*if ((test_number % 10) == 0)
 		{
-			res = spi_send(0xFF);
-			DEBUG_BYTE_USART(res);
-		} while ((res & 0x80) && --n);
-		ms_delay(1000);
+			printString("test number: ");
+			printByte(test_number/10);
+			printString("\r\n");
+		}
+		if (GPIOD->IDR & GPIO_IDR_IDR_0) //Check chip select
+		{
+			DEBUG_SEND_USART("SD Card Inserted");
+			
+			ms_delay(10);
+			
+			for (n = 10; n; n--) 
+			{
+				spi_send(0xFF);
+			}
+			GPIOD->MODER |= GPIO_MODER_MODER0_0;
+			select();*/
+			/*if (!select())
+			{ 
+				GPIOD->ODR ^= DISCOF4_LED_RED;
+			}
+			DEBUG_BYTE_USART(spi_send(0x00));
+			GPIOD->ODR ^= DISCOF4_LED_BLUE;
+			DEBUG_BYTE_USART(spi_send( 0x40 | 0x00));	// Start + command index
+			DEBUG_BYTE_USART(spi_send(0));	 			// Argument[31..24]
+			DEBUG_BYTE_USART(spi_send(0));				// Argument[23..16]
+			DEBUG_BYTE_USART(spi_send(0));				// Argument[15..8]
+			DEBUG_BYTE_USART(spi_send(0));				// Argument[7..0]
+			DEBUG_BYTE_USART(spi_send(0x95));			// CRC
+
+			// Receive command resp
+			uint8_t res;
+			int n = 10;								// Wait for response (10 bytes max)
+			do 
+			{
+				res = spi_send(0xFF);
+				DEBUG_BYTE_USART(res);
+			} while ((res & 0x80) && --n);
+			GPIOD->MODER &= ~(GPIO_MODER_MODER0_0);
+			ms_delay(1000);
+		}
+		test_number++;
+		ms_delay(100);*/
 		//DEBUG_BYTE_USART(n);
 		//printString("\r\n");
-			//GPIOD->ODR ^= 1 << 12;
+		//GPIOD->ODR ^= 1 << 12;*/
+		//spi_send(0x00);
 	}
 }

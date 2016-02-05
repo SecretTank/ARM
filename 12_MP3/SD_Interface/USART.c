@@ -20,10 +20,25 @@ void usart_init(void)
 		UART4->CR1 |= USART_CR1_UE;			//enable uart
 		//UART4->CR1 |= USART_CR1_M;			//program to define word length
 		//UART4->CR2 |= USART_CR2_STOP;
-		UART4->BRR = 0x00000682;           //set baudrate to 9600
+		/////////UART4->BRR = 0x00000682;			//set baudrate to 9600; F_cl=16MHz
+		
+		/* Configure the USART Baud Rate */
+  RCC_GetClocksFreq(&RCC_ClocksStatus);
+
+  apbclock = RCC_ClocksStatus.PCLK1_Frequency;
+  integerdivider = ((25 * apbclock) / (4 * (9600)));
+  UART4->BRR = (integerdivider / 100) << 4;
+		
+		
+		
+		
+		UART4->CR1 |= USART_CR1_RXNEIE;		//enable interrupt on data ready
+		NVIC_EnableIRQ(UART4_IRQn);			//CMSIS Function
+
 		UART4->CR1 |= USART_CR1_TE; 		//enable uart receiver
-		UART4->CR1 |= USART_CR1_RE;		//enable uart transmiter
+		UART4->CR1 |= USART_CR1_RE;			//enable uart transmiter
 		UART4->SR &= ~USART_SR_RXNE;
+				
 }
 
 

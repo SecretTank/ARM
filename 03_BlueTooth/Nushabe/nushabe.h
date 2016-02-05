@@ -43,6 +43,13 @@ public:
     QVector <QBluetoothDeviceInfo> dev_list;
     QBluetoothLocalDevice localDevice;
 
+private:
+    QPushButton *connect_btn;
+    QPushButton *exit_btn;
+    QVBoxLayout* layout;
+    QHBoxLayout* btn_layout;
+    QWidget* centralWidget;
+
 public:
     Ui::Nushabe *ui;
 public slots:
@@ -53,6 +60,8 @@ public slots:
     void bt_connected();
     void bt_disconnected();
     void error(QBluetoothSocket::SocketError);
+    void connect_clicked();
+    void exit_clicked();
 
 };
 
