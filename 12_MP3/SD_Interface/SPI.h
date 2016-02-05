@@ -14,9 +14,7 @@
 #define SPI_IS_BUSY(SPIx) (((SPIx)->SR & (SPI_SR_TXE | SPI_SR_RXNE)) == 0 || ((SPIx)->SR & SPI_SR_BSY))
 #define SPI_WAIT(SPIx)            while (SPI_IS_BUSY(SPIx))
 
-uint8_t spi_send(uint8_t data);
-
-void rcc_wait_for_osc_ready();
+uint8_t spi_transfer(uint8_t data);
 
 void spi_init();
 #endif
