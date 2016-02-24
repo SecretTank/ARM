@@ -16,6 +16,6 @@
 
 uint8_t spi_transfer(uint8_t data);
 
-void spi_init();
+void spi_init(bool soft_cs);
 #endif
 

@@ -5,30 +5,30 @@ Nushabe::Nushabe(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::Nushabe)
 {
-    QVBoxLayout* layout = new QVBoxLayout();
-    QWidget* centralWidget= new QWidget();
-    dial = new QDial();
-    progressbar = new QProgressBar();
+    layout = new QVBoxLayout;
+    centralWidget = new QWidget;
+    dial = new QDial;
+    progressbar = new QProgressBar;
+    connect_btn = new QPushButton("Connect");
+    exit_btn = new QPushButton("Exit");
     status = new QLabel("boom");
+    btn_layout = new QHBoxLayout;
+
+    btn_layout->addWidget(exit_btn);
+    btn_layout->addWidget(connect_btn);
+
     layout->addWidget(dial);
     layout->addWidget(progressbar);
     layout->addWidget(status);
+    layout->addLayout(btn_layout);
     setCentralWidget(centralWidget);
     centralWidget->setLayout(layout);
-    resize(200, 300);
-    QString localDeviceName;
+
+
+    //resize(200, 300);
     connect(dial,SIGNAL(sliderMoved(int)),this,SLOT(valueChangedSlot(int)));
     //QList<QBluetoothHostInfo> host;
     //QList<QBluetoothDeviceInfo> found_devices;
-    if (localDevice.isValid()) {
-
-        // Turn Bluetooth on
-        localDevice.powerOn();
-        status->setText("blue is on");
-        // Make it visible to others
-        localDevice.setHostMode(QBluetoothLocalDevice::HostDiscoverable);
-    }
-    startDeviceDiscovery();
 }
 
 Nushabe::~Nushabe()
@@ -80,18 +80,40 @@ void Nushabe::startClient()
 }
 
 
-void Nushabe :: bt_connected()
+void Nushabe::bt_connected()
 {
      qDebug() << "HC-05 Connected\nSending HI!";
      socket->write("Hi\r\n");
 }
 
-void Nushabe :: bt_disconnected()
+void Nushabe::bt_disconnected()
 {
 
 }
 
-void Nushabe :: error(QBluetoothSocket::SocketError error_code)
+void Nushabe::error(QBluetoothSocket::SocketError error_code)
 {
     qDebug() <<"error is : " << error_code;
+}
+
+void Nushabe::connect_clicked()
+{
+    if (localDevice.isValid())
+    {
+        // Turn Bluetooth on
+        localDevice.powerOn();
+        status->setText("blue is on");
+        // Make it visible to others
+        localDevice.setHostMode(QBluetoothLocalDevice::HostDiscoverable);
+    }
+    else
+    {
+        status->setText("local device not supported");
+    }
+    startDeviceDiscovery();
+}
+
+void Nushabe::exit_clicked()
+{
+    exit(0);
 }

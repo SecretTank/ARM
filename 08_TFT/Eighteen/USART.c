@@ -9,35 +9,25 @@
 
 //PA0 : TX
 //PA1 : RX
+//Baudrate : 9600
 void usart_init(void)
-{                                /* requires BAUD*/
-		RCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN;  // enable the clock to GPIOA
-		RCC->APB1ENR |= RCC_APB1ENR_UART4EN;			//enable the clock to UART4
-		asm("dsb");                         // stall instruction pipeline, until instruction completes, as
+{
+		RCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN;	// enable the clock to GPIOA
+		RCC->APB1ENR |= RCC_APB1ENR_UART4EN;	//enable the clock to UART4
+		//asm("dsb");                         	// stall instruction pipeline, until instruction completes, as
 
-		GPIOA->MODER |= GPIO_MODER_MODER0_1 | GPIO_MODER_MODER1_1;  //set alternative function for gpioA (1:0) pins
+		GPIOA->MODER |= GPIO_MODER_MODER0_1 | GPIO_MODER_MODER1_1;  //set alternative function for PA1 and PA1
 		GPIOA->AFR[0] = 0x88 ;				//set for uart4..6 for pin A0 and A1 (AF8)
 		UART4->CR1 |= USART_CR1_UE;			//enable uart
-		//UART4->CR1 |= USART_CR1_M;			//program to define word length
-		//UART4->CR2 |= USART_CR2_STOP;
-		/////////UART4->BRR = 0x00000682;			//set baudrate to 9600; F_cl=16MHz
 		
-		/* Configure the USART Baud Rate */
-  RCC_GetClocksFreq(&RCC_ClocksStatus);
-
-  apbclock = RCC_ClocksStatus.PCLK1_Frequency;
-  integerdivider = ((25 * apbclock) / (4 * (9600)));
-  UART4->BRR = (integerdivider / 100) << 4;
-		
-		
-		
+		UART4->BRR = 0x00000682;			//set baudrate; F_cl=16MHz
 		
 		UART4->CR1 |= USART_CR1_RXNEIE;		//enable interrupt on data ready
 		NVIC_EnableIRQ(UART4_IRQn);			//CMSIS Function
 
 		UART4->CR1 |= USART_CR1_TE; 		//enable uart receiver
 		UART4->CR1 |= USART_CR1_RE;			//enable uart transmiter
-		UART4->SR &= ~USART_SR_RXNE;
+		UART4->SR &= ~USART_SR_RXNE;		//clear recieve buffer
 				
 }
 
@@ -46,7 +36,7 @@ void transmitByte(uint8_t data) {
 		/* Wait for empty transmit buffer */
 		loop_until_bit_is_set(UART4->SR,USART_SR_TXE);
 		UART4->DR |= data;                                            /* send data */
-		UART4->DR  = (uint8_t)(data);
+		UART4->DR = (uint8_t)(data);
 		loop_until_bit_is_set(UART4->SR,USART_SR_TC);
 }
 
@@ -63,11 +53,9 @@ uint8_t receiveByte(void) {
 
 /* Here are a bunch of useful printing commands */
 
-void printString(const char myString[])
-{
+void printString(const char myString[]) {
 		int8_t i = 0;
-		while (myString[i])
-		{
+		while (myString[i]) {
 				transmitByte(myString[i]);
 				i++;
 		}
