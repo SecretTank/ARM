@@ -46,7 +46,7 @@ void transmitByte(uint8_t data) {
 		/* Wait for empty transmit buffer */
 		loop_until_bit_is_set(UART4->SR,USART_SR_TXE);
 		UART4->DR |= data;                                            /* send data */
-		UART4->DR = (uint8_t)(data);
+		UART4->DR  = (uint8_t)(data);
 		loop_until_bit_is_set(UART4->SR,USART_SR_TC);
 }
 
@@ -63,9 +63,11 @@ uint8_t receiveByte(void) {
 
 /* Here are a bunch of useful printing commands */
 
-void printString(const char myString[]) {
+void printString(const char myString[])
+{
 		int8_t i = 0;
-		while (myString[i]) {
+		while (myString[i])
+		{
 				transmitByte(myString[i]);
 				i++;
 		}

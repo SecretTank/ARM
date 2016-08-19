@@ -52,7 +52,8 @@ int wait_ready (unsigned int wt )
 {
 	uint8_t d;
 	
-	do {
+	do 
+	{
 		d = spi_send(0xFF);
 	} while (d != 0xFF);	/* Wait for card goes ready or timeout */
 	if (d == 0xFF) {
