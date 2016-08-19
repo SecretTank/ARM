@@ -1,16 +1,15 @@
 #include "renderarea.h"
+
 #include <QPainter>
 
 RenderArea::RenderArea(QWidget *parent)
     : QWidget(parent)
 {
-
     setBackgroundRole(QPalette::Base);
     setAutoFillBackground(true);
     //painter = QPainter(this);
     boom = new QPixmap (1200, 400);
     img_painter.begin(boom);
-    pthread_create( &thread_painter, NULL, paintEvent, (void*) this);
 }
 
 QSize RenderArea::minimumSizeHint() const
@@ -31,15 +30,13 @@ void RenderArea::setCoordinate(int X , int ny , int ly )
     //repaint();
 }
 
-void *paintEvent(void *ptr)
+void RenderArea::paintEvent(QPaintEvent * /* event */)
 {
     QPainter wid_painter;
-    RenderArea *renderarea = (RenderArea *)ptr;
-    wid_painter.begin(renderarea);
+    wid_painter.begin(this);
 
-    renderarea->img_painter.fillRect(10*renderarea->x, 0, 10, renderarea->height(),renderarea->palette().base());
-    renderarea->img_painter.setBrush(renderarea->palette().dark().color());
-    renderarea->img_painter.drawEllipse(QPoint(10*renderarea->x+5,renderarea->new_y),5,5);
-    wid_painter.drawPixmap(0,0,*(renderarea->boom));
+    img_painter.fillRect(10*x, 0, 10, this->height(),palette().base());
+    img_painter.setBrush(palette().dark().color());
+    img_painter.drawEllipse(QPoint(10*x+5,new_y),5,5);
+    wid_painter.drawPixmap(0,0,*boom);
 }
-

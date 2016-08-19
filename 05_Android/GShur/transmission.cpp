@@ -46,8 +46,8 @@ void Transmission::mosalasSlot()
     startTransfer(message.toUtf8().data());
 }
 
-void Transmission::mosalasSlot()
-{\
+/*void Transmission::mosalasSlot()
+{
     message = "s";
     startTransfer(message.toUtf8().data());
     /*if (!commandMode)
@@ -63,7 +63,7 @@ void Transmission::mosalasSlot()
             commandIndex++;
         }
     }*/
-}
+//}
 
 void Transmission::dayereSlot()
 {

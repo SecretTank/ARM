@@ -6,48 +6,28 @@
 #include <QtSerialPort/QSerialPort>
 #include <QDebug>
 
-#define port_name "ttyUSB0"
-#define baud_rate  QSerialPort::Baud9600
-#define data_bits QSerialPort::Data8
-#define parity QSerialPort::NoParity
-#define stop_bits QSerialPort::OneStop
-#define flow_control QSerialPort::NoFlowControl
+#define port_name       "ttyUSB0"
+#define baud_rate       QSerialPort::Baud9600
+#define data_bits       QSerialPort::Data8
+#define parity          QSerialPort::NoParity
+#define stop_bits       QSerialPort::OneStop
+#define flow_control    QSerialPort::NoFlowControl
 
-#define find_backR 0
-#define get_first_char 1
-#define get_sec_char 2
+#define find_backR      0
+#define get_first_char  1
+#define get_sec_char    2
 
-osil::osil()
+osil::osil(QVector<int> *data)
 {
     serial = new QSerialPort(this);
-    renderArea = new RenderArea;
-    status = new QLabel("disconnected!");
-    QGridLayout *mainLayout = new QGridLayout;
     x = 0;
-    y = QVector<int> (200);
-
-    mainLayout->addWidget(renderArea, 0, 0, 1, 4);
-    mainLayout->addWidget(status, 3 , 0);
-    setLayout(mainLayout);
-    setWindowTitle(tr("** MY OSIL **"));
     openSerialPort();
     turn = find_backR;
+    adc_data = data;
     connect(serial,SIGNAL(readyRead()),this,SLOT(readData()));
 }
 
-void osil::update_osil()
-{
-    int last_y;
-    last_y = y[x];
-    y[x] = voltage/4096.0 * 350.0;
-    renderArea->setCoordinate(x,y[x],last_y);
-    if(x>173)
-        x=0;
-    else
-        x++;
-}
-
-void osil::openSerialPort()
+bool osil::openSerialPort()
 {
     serial->setPortName(port_name);
     serial->setBaudRate(baud_rate);
@@ -56,11 +36,13 @@ void osil::openSerialPort()
     serial->setStopBits(stop_bits);
     serial->setStopBits(stop_bits);
     serial->setFlowControl(flow_control);
-    if (serial->open(QIODevice::ReadWrite)) {
-        status->setText("connected!");
-    } else {
-        QMessageBox::critical(this, tr("Error"), serial->errorString());
-        status->setText("disconnected!");
+    if (serial->open(QIODevice::ReadWrite))
+    {
+        return true;
+    }
+    else
+    {
+        return false;
     }
 }
 
@@ -88,7 +70,6 @@ void osil::readData()
         voltage += data.at(0)*256;
         turn = find_backR;
         qDebug()<<voltage;
-        update_osil();
         break;
     }
 }

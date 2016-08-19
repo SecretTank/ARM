@@ -5,33 +5,24 @@
 #include <QWidget>
 #include <QtSerialPort/QSerialPort>
 
-
-QT_BEGIN_NAMESPACE
-class QLabel;
-QT_END_NAMESPACE
-class RenderArea;
-
-//! [0]
-class osil : public QWidget
+class osil : public QObject
 {
     Q_OBJECT
 
 public:
-    osil();
+    osil(QVector<int> *data);
     ~osil();
-private slots:
-    void update_osil();
-    void openSerialPort();
+    bool openSerialPort();
     void closeSerialPort();
+
+    QVector<int> *adc_data;
+private slots:
     void readData();
 private:
-    RenderArea *renderArea;
     int voltage;
-    QVector<int> y;
-    int x;
     QSerialPort* serial;
-    QLabel* status;
     int turn;
+    int x;
 };
 
 

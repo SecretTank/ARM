@@ -14,10 +14,12 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         osil.cpp \
-    renderarea.cpp
+    renderarea.cpp \
+    mainwindow.cpp
 
 HEADERS  += osil.h \
-    renderarea.h
+    renderarea.h \
+    mainwindow.h
 
 LIBS += -lpthread
 #INCLUDEPATH +=
