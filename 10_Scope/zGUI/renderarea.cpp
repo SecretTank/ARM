@@ -22,11 +22,10 @@ QSize RenderArea::sizeHint() const
     return QSize(1200, 400);
 }
 
-void RenderArea::setCoordinate(int X , int ny , int ly )
+void RenderArea::setCoordinate(int X , int ny )
 {
     x = X;
     new_y = ny;
-    last_y = ly;
     //repaint();
 }
 

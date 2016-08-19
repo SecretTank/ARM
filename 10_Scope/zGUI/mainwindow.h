@@ -5,6 +5,7 @@
 #include <QLabel>
 #include <QVBoxLayout>
 #include "renderarea.h"
+#include "QTimer"
 
 
 class MainWindow : public QMainWindow
@@ -23,6 +24,7 @@ private:
     int voltage;
     QLabel* status;
     int x;
+    QTimer *update_timer;
 
 
     QWidget *mainWidget;

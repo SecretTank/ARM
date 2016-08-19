@@ -27,10 +27,6 @@ void *serial_main(void *arg)
 {
     QVector<int> *adc_data = (QVector<int> *)arg;
     osil *device = new osil(adc_data);
+    device->openSerialPort();
     printf("we are inside thread\n");
-    while (true)
-    {
-        sleep(1);
-        printf("we are inside thread\n");
-    }
 }

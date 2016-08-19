@@ -31,14 +31,15 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     setCentralWidget(mainWidget);
     setWindowTitle("** MY OSIL **");
     adc_data = QVector<int> (200);
+    x = 0;
+    update_timer = new QTimer;
+    update_timer->setInterval(1);
+    connect(update_timer,SIGNAL(timeout()),this,SLOT(update_osil()));
 }
 
 void MainWindow::update_osil()
 {
-    int last_y;
-    last_y = adc_data[x];
-    adc_data[x] = voltage/4096.0 * 350.0;
-    renderArea->setCoordinate(x,adc_data[x],last_y);
+    renderArea->setCoordinate(x,adc_data[x]);
     if(x>173)
     {
         x=0;

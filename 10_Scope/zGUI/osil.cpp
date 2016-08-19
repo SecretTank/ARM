@@ -56,21 +56,31 @@ void osil::readData()
 {
     QByteArray data;
     data = serial->read(1);
-    switch (turn) {
-    case find_backR:
-        voltage = 0;
-        if(data.at(0) == '\r')
-            turn = get_first_char;
-        break;
-    case get_first_char:
-        voltage = data.at(0);
-        turn = get_sec_char;
-        break;
-    case get_sec_char:
-        voltage += data.at(0)*256;
-        turn = find_backR;
-        qDebug()<<voltage;
-        break;
+    switch (turn)
+    {
+        case find_backR:
+            voltage = 0;
+            if(data.at(0) == '\r')
+                turn = get_first_char;
+            break;
+        case get_first_char:
+            voltage = data.at(0);
+            turn = get_sec_char;
+            break;
+        case get_sec_char:
+            voltage += data.at(0)*256;
+            turn = find_backR;
+            qDebug()<<voltage;
+            break;
+    }
+    (*adc_data)[x] = voltage/4096.0 * 350.0;
+    if(x>173)
+    {
+        x=0;
+    }
+    else
+    {
+        x++;
     }
 }
 

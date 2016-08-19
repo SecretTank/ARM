@@ -20,7 +20,7 @@ public:
     QSize sizeHint() const Q_DECL_OVERRIDE;
 
 public slots:
-    void setCoordinate(int X, int ny, int ly);
+    void setCoordinate(int X, int ny);
 protected:
     void paintEvent(QPaintEvent *) Q_DECL_OVERRIDE;
 
@@ -29,7 +29,6 @@ private:
     int x;
     int i;
     int new_y;
-    int last_y;
     QPixmap *boom;
     QPainter img_painter;
 };
