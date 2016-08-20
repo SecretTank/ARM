@@ -4,8 +4,6 @@
 #include <QApplication>
 #include <unistd.h>
 
-void *serial_main(void *arg);
-
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
@@ -25,7 +23,7 @@ int main(int argc, char *argv[])
 
 void *serial_main(void *arg)
 {
-    QVector<int> *adc_data = (QVector<int> *)arg;
+    oscope_data *adc_data = (oscope_data *)arg;
     osil *device = new osil(adc_data);
     device->openSerialPort();
     printf("we are inside thread\n");

@@ -19,16 +19,14 @@ public:
     QSize minimumSizeHint() const Q_DECL_OVERRIDE;
     QSize sizeHint() const Q_DECL_OVERRIDE;
 
-public slots:
-    void setCoordinate(int X, int ny);
+    void addPoint(int x, int y);
+
 protected:
     void paintEvent(QPaintEvent *) Q_DECL_OVERRIDE;
 
 private:
     //QPainter painter;
-    int x;
     int i;
-    int new_y;
     QPixmap *boom;
     QPainter img_painter;
 };

@@ -22,20 +22,17 @@ QSize RenderArea::sizeHint() const
     return QSize(1200, 400);
 }
 
-void RenderArea::setCoordinate(int X , int ny )
+void RenderArea::addPoint(int x , int y )
 {
-    x = X;
-    new_y = ny;
-    //repaint();
+    img_painter.fillRect(10*x, 0, 10, this->height(),palette().base());
+    img_painter.setBrush(palette().dark().color());
+    img_painter.drawEllipse(QPoint(10*x+5,y),5,5);
 }
 
 void RenderArea::paintEvent(QPaintEvent * /* event */)
 {
     QPainter wid_painter;
     wid_painter.begin(this);
-
-    img_painter.fillRect(10*x, 0, 10, this->height(),palette().base());
-    img_painter.setBrush(palette().dark().color());
-    img_painter.drawEllipse(QPoint(10*x+5,new_y),5,5);
     wid_painter.drawPixmap(0,0,*boom);
+    qDebug() << "Hi";
 }

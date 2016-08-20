@@ -30,24 +30,29 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     mainWidget->setLayout(mainLayout);
     setCentralWidget(mainWidget);
     setWindowTitle("** MY OSIL **");
-    adc_data = QVector<int> (200);
+    adc_data.data = QVector<int> (200);
     x = 0;
     update_timer = new QTimer;
-    update_timer->setInterval(1);
+    adc_data.buffer = 0;
     connect(update_timer,SIGNAL(timeout()),this,SLOT(update_osil()));
+    update_timer->start(30);
 }
 
 void MainWindow::update_osil()
 {
-    renderArea->setCoordinate(x,adc_data[x]);
-    if(x>173)
+    for (; adc_data.buffer > 0 ; adc_data.buffer--)
     {
-        x=0;
+        renderArea->addPoint(x,adc_data.data[x]);
+        if(x>sceen_size)
+        {
+            x=0;
+        }
+        else
+        {
+            x++;
+        }
     }
-    else
-    {
-        x++;
-    }
+    renderArea->update();
 }
 
 MainWindow::~MainWindow()

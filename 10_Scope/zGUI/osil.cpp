@@ -17,7 +17,7 @@
 #define get_first_char  1
 #define get_sec_char    2
 
-osil::osil(QVector<int> *data)
+osil::osil(oscope_data *data)
 {
     serial = new QSerialPort(this);
     x = 0;
@@ -54,6 +54,7 @@ void osil::closeSerialPort()
 
 void osil::readData()
 {
+    int voltage;
     QByteArray data;
     data = serial->read(1);
     switch (turn)
@@ -73,14 +74,19 @@ void osil::readData()
             qDebug()<<voltage;
             break;
     }
-    (*adc_data)[x] = voltage/4096.0 * 350.0;
-    if(x>173)
+    adc_data->data[x] = voltage/4096.0 * 350.0;
+    if(x>sceen_size)
     {
         x=0;
     }
     else
     {
         x++;
+    }
+    adc_data->buffer++;
+    if(adc_data->buffer > sceen_size)
+    {
+        adc_data->buffer = sceen_size;
     }
 }
 

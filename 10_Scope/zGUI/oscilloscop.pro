@@ -19,7 +19,8 @@ SOURCES += main.cpp\
 
 HEADERS  += osil.h \
     renderarea.h \
-    mainwindow.h
+    mainwindow.h \
+    define.h
 
 LIBS += -lpthread
 #INCLUDEPATH +=

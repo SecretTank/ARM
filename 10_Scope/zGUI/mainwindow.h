@@ -5,6 +5,7 @@
 #include <QLabel>
 #include <QVBoxLayout>
 #include "renderarea.h"
+#include "define.h"
 #include "QTimer"
 
 
@@ -15,7 +16,7 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-    QVector<int> adc_data;
+    oscope_data adc_data;
 
 private slots:
     void update_osil();
