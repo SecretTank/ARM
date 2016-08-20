@@ -32,9 +32,9 @@ int main(void)
 	{
 		if (( ADC2->CR2 & ADC_CR2_CONT ))
 		{
-			GPIOD->ODR ^=  1 << 13;
+			GPIOD->ODR ^=  1 << 13; //blink orange LED
 		}
-		ADC_DataSend();
+		ms_delay(1000);
 	}
 }
 

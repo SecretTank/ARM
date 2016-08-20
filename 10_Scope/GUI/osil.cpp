@@ -7,7 +7,7 @@
 #include <QDebug>
 
 #define port_name       "ttyUSB0"
-#define baud_rate       QSerialPort::Baud9600
+#define baud_rate       QSerialPort::Baud115200
 #define data_bits       QSerialPort::Data8
 #define parity          QSerialPort::NoParity
 #define stop_bits       QSerialPort::OneStop
@@ -63,37 +63,40 @@ void osil::readData()
 {
     unsigned int voltage;
     QByteArray data;
-    data = serial->read(1);
-    switch (turn)
+    while (serial->bytesAvailable() > 0)
     {
-        case find_backR:
-            voltage = 0;
-            if(data.at(0) == '\r')
-                turn = get_first_char;
-            break;
-        case get_first_char:
-            voltage = (unsigned char)data.at(0);
-            turn = get_sec_char;
-            break;
-        case get_sec_char:
-            voltage += ((unsigned char)data.at(0))*256;
-            turn = find_backR;
-            //qDebug()<< "x: " << x << " voltage: " <<voltage;
-            adc_data->data[x] = 340.0-(voltage/4096.0 * 340.0);
-            if(x>sceen_size)
-            {
-                x = 0;
-            }
-            else
-            {
-                x++;
-            }
-            adc_data->buffer++;
-            if(adc_data->buffer > sceen_size)
-            {
-                adc_data->buffer = sceen_size;
-            }
-            break;
+        data = serial->read(1);
+        switch (turn)
+        {
+            case find_backR:
+                voltage = 0;
+                if(data.at(0) == '\r')
+                    turn = get_first_char;
+                break;
+            case get_first_char:
+                voltage = (unsigned char)data.at(0);
+                turn = get_sec_char;
+                break;
+            case get_sec_char:
+                voltage += ((unsigned char)data.at(0))*256;
+                turn = find_backR;
+                //qDebug()<< "x: " << x << " voltage: " <<voltage;
+                adc_data->data[x] = 340.0-(voltage/4096.0 * 340.0);
+                if(x>sceen_size)
+                {
+                    x = 0;
+                }
+                else
+                {
+                    x++;
+                }
+                adc_data->buffer++;
+                if(adc_data->buffer > sceen_size)
+                {
+                    adc_data->buffer = sceen_size;
+                }
+                break;
+        }
     }
     //qDebug() << "we get data";
 }

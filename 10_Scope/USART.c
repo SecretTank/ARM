@@ -7,6 +7,11 @@
 #define		TRUE	1 
 #define		FALSE	0 
 
+/*
+	BAUD 9600   : 0x682
+	BAUD 115200 : 0x88
+*/
+
 void initUSART(void)
 {                                /* requires BAUD*/
 		RCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN;  // enable the clock to GPIOA
@@ -18,7 +23,7 @@ void initUSART(void)
 		UART4->CR1 |= USART_CR1_UE;			//enable uart
 		//UART4->CR1 |= USART_CR1_M;			//program to define word length
 		//UART4->CR2 |= USART_CR2_STOP;
-		UART4->BRR = 0x00000682;           //set baudrate to 9600
+		UART4->BRR = 0x00000088;           //set baudrate to 115200
 		UART4->CR1 |= USART_CR1_TE; 		//enable uart receiver
 		UART4->CR1 |= USART_CR1_RE;		//enable uart transmiter
 		UART4->SR &= ~USART_SR_RXNE;
@@ -125,7 +130,8 @@ uint8_t getNumber(void) {
 		char tens = '0';
 		char ones = '0';
 		char thisChar = '0';
-		do {                                                   /* shift over */
+		do 
+		{                                               /* shift over */
 				hundreds = tens;
 				tens = ones;
 				ones = thisChar;

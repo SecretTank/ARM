@@ -30,6 +30,7 @@ void initADC_Cont(void)
 	ADC2->CR2	 |= ADC_CR2_ADON;					// enable ADC
 	ADC2->SQR3 |= ADC_SQR3_SQ1_1;				// setting channel 2 - Regular Conversion Number : 1
 	ADC2->CR1  |=ADC_CR1_EOCIE;					// enable ADC Interrupt
+	NVIC_EnableIRQ(ADC_IRQn);						// enable ARC Handler
 	//ADC->CR2 |=ADC_CR2_CONT;
 	ADC2->CR2  |=ADC_CR2_SWSTART;
 }
@@ -40,7 +41,7 @@ void ADC_DataSend(void)
 	uint16_t data;
 	uint8_t data8_bit; 
 	ADC2->CR2 |= ADC_CR2_SWSTART;               			//enable uart
-	loop_until_bit_is_set(ADC2->SR,ADC_SR_EOC);				//wait till adc conversion
+	//loop_until_bit_is_set(ADC2->SR,ADC_SR_EOC);				//wait till adc conversion
 	data=ADC2->DR&0xfff;
 	data8_bit=data%0xff;						//send LSB									
   transmitByte(data8_bit);
@@ -49,8 +50,8 @@ void ADC_DataSend(void)
 	transmitByte('\r');             /* send data */
 }
 
-//This is not enable yet
 void ADC_IRQHandler(void)
 {
-	printString("hi\r\n");
+	//printString("hi\r\n");
+	ADC_DataSend();
 }

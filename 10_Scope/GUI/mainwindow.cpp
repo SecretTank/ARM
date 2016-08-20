@@ -35,11 +35,12 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     update_timer = new QTimer;
     adc_data.buffer = 0;
     connect(update_timer,SIGNAL(timeout()),this,SLOT(update_osil()));
-    update_timer->start(30);
+    update_timer->start(50);
 }
 
 void MainWindow::update_osil()
 {
+    //qDebug() << adc_data.buffer << "x " << x;
     for (; adc_data.buffer > 0 ; adc_data.buffer--)
     {
         renderArea->addPoint(x,adc_data.data[x]);
@@ -51,8 +52,30 @@ void MainWindow::update_osil()
         {
             x++;
         }
+
     }
     renderArea->update();
+    /*int m = 0;
+    int size_m = adc_data.buffer;
+    for (; adc_data.buffer > 0 ; adc_data.buffer--)
+    {
+        m += (340 - adc_data.data[x]);
+        if(x>sceen_size)
+        {
+            x=0;
+        }
+        else
+        {
+            x++;
+        }
+
+    }
+    if (size_m != 0)
+    {
+        m = m / size_m;
+        qDebug() << m;
+    }*/
+
 }
 
 MainWindow::~MainWindow()
