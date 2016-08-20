@@ -22,9 +22,12 @@ osil::osil(oscope_data *data)
     serial = new QSerialPort(this);
     x = 0;
     openSerialPort();
+    qDebug() << "Fuck connect";
     turn = find_backR;
     adc_data = data;
+    qDebug() << "before connect";
     connect(serial,SIGNAL(readyRead()),this,SLOT(readData()));
+    qDebug() << "after connect";
 }
 
 bool osil::openSerialPort()
@@ -36,6 +39,7 @@ bool osil::openSerialPort()
     serial->setStopBits(stop_bits);
     serial->setStopBits(stop_bits);
     serial->setFlowControl(flow_control);
+    qDebug() << "Sock connect";
     if (serial->open(QIODevice::ReadWrite))
     {
         return true;
@@ -44,6 +48,7 @@ bool osil::openSerialPort()
     else
     {
         qDebug() << "Fuck!!!";
+        qDebug() << serial->error();
         return false;
     }
 }
@@ -56,7 +61,7 @@ void osil::closeSerialPort()
 
 void osil::readData()
 {
-    int voltage;
+    unsigned int voltage;
     QByteArray data;
     data = serial->read(1);
     switch (turn)
@@ -67,30 +72,30 @@ void osil::readData()
                 turn = get_first_char;
             break;
         case get_first_char:
-            voltage = data.at(0);
+            voltage = (unsigned char)data.at(0);
             turn = get_sec_char;
             break;
         case get_sec_char:
-            voltage += data.at(0)*256;
+            voltage += ((unsigned char)data.at(0))*256;
             turn = find_backR;
-            qDebug()<<voltage;
+            //qDebug()<< "x: " << x << " voltage: " <<voltage;
+            adc_data->data[x] = 340.0-(voltage/4096.0 * 340.0);
+            if(x>sceen_size)
+            {
+                x = 0;
+            }
+            else
+            {
+                x++;
+            }
+            adc_data->buffer++;
+            if(adc_data->buffer > sceen_size)
+            {
+                adc_data->buffer = sceen_size;
+            }
             break;
     }
-    adc_data->data[x] = voltage/4096.0 * 350.0;
-    if(x>sceen_size)
-    {
-        x=0;
-    }
-    else
-    {
-        x++;
-    }
-    adc_data->buffer++;
-    if(adc_data->buffer > sceen_size)
-    {
-        adc_data->buffer = sceen_size;
-    }
-    qDebug() << "we get data";
+    //qDebug() << "we get data";
 }
 
 osil::~osil()

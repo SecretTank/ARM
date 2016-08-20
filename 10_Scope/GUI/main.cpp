@@ -9,12 +9,17 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     MainWindow w;
 
-    pthread_t serial_thread;
+
+    osil *device = new osil(&(w.adc_data));
+    device->openSerialPort();
+    printf("we are inside thread\n");
+
+    /*pthread_t serial_thread;
     if(pthread_create(&serial_thread, NULL, serial_main, &(w.adc_data)))
     {
         fprintf(stderr, "Error creating thread\n");
         return 1;
-    }
+    }*/
 
     w.show();
 
