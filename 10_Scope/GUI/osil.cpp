@@ -39,9 +39,11 @@ bool osil::openSerialPort()
     if (serial->open(QIODevice::ReadWrite))
     {
         return true;
+        qDebug() << "thread started";
     }
     else
     {
+        qDebug() << "Fuck!!!";
         return false;
     }
 }
@@ -88,6 +90,7 @@ void osil::readData()
     {
         adc_data->buffer = sceen_size;
     }
+    qDebug() << "we get data";
 }
 
 osil::~osil()

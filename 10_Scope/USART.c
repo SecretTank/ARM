@@ -25,7 +25,8 @@ void initUSART(void)
 }
 
 
-void transmitByte(uint8_t data) {
+void transmitByte(uint8_t data)
+{
 		/* Wait for empty transmit buffer */
 		loop_until_bit_is_set(UART4->SR,USART_SR_TXE);
 		UART4->DR |= data;                                            /* send data */

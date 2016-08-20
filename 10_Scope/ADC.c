@@ -19,7 +19,8 @@ void initADC(void)
 		ADC2->SQR3 |= ADC_SQR3_SQ1_1;			// setting channell
 }
 
-void initADC_Cont(void){
+void initADC_Cont(void)
+{
 	RCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN;  // enable the clock to GPIOA
 	RCC->APB2ENR |= RCC_APB2ENR_ADC2EN;  //enable the clock to ADC2
     asm("dsb");                           // stall instruction pipeline, until instruction completes, as
@@ -33,8 +34,6 @@ void initADC_Cont(void){
 	ADC2->CR2 |=ADC_CR2_SWSTART;
 }
 
-
-
 void ADC_DataSend(void)
 {
   /* Wait for empty transmit buffer */
@@ -47,7 +46,7 @@ void ADC_DataSend(void)
   transmitByte(data8_bit);
   data8_bit=data/0x100;						//send MSB
 	transmitByte(data8_bit);
-	transmitByte("\r");             /* send data */
+	transmitByte('\r');             /* send data */
 }
 
 void ADC_IRQHandler(void)

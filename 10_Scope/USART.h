@@ -1,3 +1,6 @@
+#ifndef USART_H
+#define USART_H
+
 /* Functions to initialize, send, receive over USART
 
    initUSART requires BAUD to be defined in order to calculate
@@ -45,3 +48,5 @@ void printHexByte(uint8_t byte);
 uint8_t getNumber(void);
 /* takes in up to three ascii digits,
  converts them to a byte when press enter */
+ 
+#endif // DEFINE

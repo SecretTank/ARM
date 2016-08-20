@@ -34,5 +34,5 @@ void RenderArea::paintEvent(QPaintEvent * /* event */)
     QPainter wid_painter;
     wid_painter.begin(this);
     wid_painter.drawPixmap(0,0,*boom);
-    qDebug() << "Hi";
+    //qDebug() << "Hi";
 }
