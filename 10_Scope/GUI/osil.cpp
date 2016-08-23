@@ -79,7 +79,7 @@ void osil::readData()
                 voltage += (((unsigned char)data.at(0)) & 0xf)*256;
                 turn = find_backR;
                 //qDebug()<< "x: " << x << " voltage: " <<voltage;
-                adc_data->data[x] = 340.0-(voltage/4096.0 * 340.0);
+                adc_data->data[x] = 340.0-(voltage/4096.0 * 300.0) + 10;
                 /*if (adc_data->data[x] < 5)
                 {
                     qDebug() << "voltage :" << voltage << "x: " << x << " adc_data->data[x]:" << adc_data->data[x];

@@ -18,12 +18,12 @@ class QTcpSocket;
 class QAction;
 QT_END_NAMESPACE
 
-class Dialog : public QMainWindow
+class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    Dialog(QWidget *parent = 0);
+    MainWindow(QWidget *parent = 0);
 
 public slots:
     void start();

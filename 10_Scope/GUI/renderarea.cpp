@@ -43,8 +43,8 @@ void RenderArea::renderPoint(QPainter *painter)
     int y1,y2;
     for (int x = 1; x < screen_res; x++)
     {
-        y2 = adc_data->data[x] + 20;
-        y1 = adc_data->data[x-1] + 20;
+        y2 = adc_data->data[x];
+        y1 = adc_data->data[x-1];
         //painter->drawEllipse(QPoint(10*x+5,y),5,5);
         painter->drawLine(step*x-step/2,y1,step*x+step/2,y2);
     }

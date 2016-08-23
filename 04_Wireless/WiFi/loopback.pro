@@ -1,8 +1,10 @@
 QT += network widgets
 
-HEADERS       = dialog.h
-SOURCES       = dialog.cpp \
-                main.cpp
+HEADERS       = \
+    mainwindow.h
+SOURCES       = \
+                main.cpp \
+    mainwindow.cpp
 
 # install
 target.path = $$[QT_INSTALL_EXAMPLES]/network/loopback
