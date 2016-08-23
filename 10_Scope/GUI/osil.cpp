@@ -21,7 +21,6 @@ osil::osil(oscope_data *data)
 {
     serial = new QSerialPort(this);
     x = 0;
-    openSerialPort();
     turn = find_backR;
     adc_data = data;
     connect(serial,SIGNAL(readyRead()),this,SLOT(readData()));
@@ -68,15 +67,24 @@ void osil::readData()
                     turn = get_first_char;
                 break;
             case get_first_char:
-                voltage = (unsigned char)data.at(0);
+                voltage = (unsigned char)data.at(0) & 0xff;
                 turn = get_sec_char;
                 break;
             case get_sec_char:
-                voltage += ((unsigned char)data.at(0))*256;
+                if (voltage > 256)
+                {
+                    turn = find_backR;
+                    break;
+                }
+                voltage += (((unsigned char)data.at(0)) & 0xf)*256;
                 turn = find_backR;
                 //qDebug()<< "x: " << x << " voltage: " <<voltage;
                 adc_data->data[x] = 340.0-(voltage/4096.0 * 340.0);
-                if(x>sceen_size)
+                /*if (adc_data->data[x] < 5)
+                {
+                    qDebug() << "voltage :" << voltage << "x: " << x << " adc_data->data[x]:" << adc_data->data[x];
+                }*/
+                if(x>screen_res)
                 {
                     x = 0;
                 }
@@ -85,9 +93,9 @@ void osil::readData()
                     x++;
                 }
                 adc_data->buffer++;
-                if(adc_data->buffer > sceen_size)
+                if(adc_data->buffer > screen_res)
                 {
-                    adc_data->buffer = sceen_size;
+                    adc_data->buffer = screen_res;
                 }
                 break;
         }

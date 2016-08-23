@@ -3,7 +3,8 @@
 
 #include <QVector>
 
-#define sceen_size 173
+#define screen_res 300
+#define screen_size 1020
 
 typedef struct oscope_data_t {
     QVector<int> data;

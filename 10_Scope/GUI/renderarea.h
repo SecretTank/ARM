@@ -7,6 +7,7 @@
 #include <QVector>
 #include <QPainter>
 #include <QDebug>
+#include <QTimer>
 #include "define.h"
 //! [0]
 class RenderArea : public QWidget
@@ -20,16 +21,21 @@ public:
     QSize minimumSizeHint() const Q_DECL_OVERRIDE;
     QSize sizeHint() const Q_DECL_OVERRIDE;
 
-    void renderPoint();
+    void renderPoint(QPainter *painter);
+
+private slots:
+    void calc_fps();
+
 
 protected:
-    void paint(QPainter *) Q_DECL_OVERRIDE;
+    void paintEvent(QPaintEvent *) Q_DECL_OVERRIDE;
 
 private:
     oscope_data *adc_data;
-    int i;
+    int i,frameNumber,fps;
     QPixmap *boom;
     QPainter img_painter;
     QPixmap *background;
+    QTimer *fps_timer;
 };
 #endif // RENDERAREA_H
