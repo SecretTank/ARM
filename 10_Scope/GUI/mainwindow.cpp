@@ -21,26 +21,32 @@
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
-    renderArea = new RenderArea;
-    status = new QLabel("disconnected!");
+    device = new osil(&(adc_data));
+    renderArea = new RenderArea(&(adc_data));
+    status = new QLabel("Disconnected");
     mainWidget = new QWidget;
     mainLayout = new QVBoxLayout;
     mainLayout->addWidget(renderArea);
     mainLayout->addWidget(status);
     mainWidget->setLayout(mainLayout);
     setCentralWidget(mainWidget);
-    setWindowTitle("** MY OSIL **");
+    setWindowTitle("Osciloscope");
     adc_data.data = QVector<int> (200);
     x = 0;
     update_timer = new QTimer;
     adc_data.buffer = 0;
     connect(update_timer,SIGNAL(timeout()),this,SLOT(update_osil()));
+
     update_timer->start(50);
+    connect(update_timer,SIGNAL(timeout()),this,SLOT(try_connect()));
+
+    connect_timer = new QTimer;
+    connect_timer->start(300);
+
 }
 
 void MainWindow::update_osil()
 {
-    //qDebug() << adc_data.buffer << "x " << x;
     for (; adc_data.buffer > 0 ; adc_data.buffer--)
     {
         renderArea->addPoint(x,adc_data.data[x]);
@@ -55,31 +61,19 @@ void MainWindow::update_osil()
 
     }
     renderArea->update();
-    /*int m = 0;
-    int size_m = adc_data.buffer;
-    for (; adc_data.buffer > 0 ; adc_data.buffer--)
-    {
-        m += (340 - adc_data.data[x]);
-        if(x>sceen_size)
-        {
-            x=0;
-        }
-        else
-        {
-            x++;
-        }
+}
 
+void MainWindow::try_connect()
+{
+    if (device->openSerialPort())
+    {
+        connect_timer->stop();
+        status->setText("Connected");
     }
-    if (size_m != 0)
-    {
-        m = m / size_m;
-        qDebug() << m;
-    }*/
-
 }
 
 MainWindow::~MainWindow()
 {
-    //device->closeSerialPort();
+    device->closeSerialPort();
 }
 

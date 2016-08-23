@@ -15,10 +15,10 @@ public:
     bool openSerialPort();
     void closeSerialPort();
 
-    oscope_data *adc_data;
 private slots:
     void readData();
 private:
+    oscope_data *adc_data;
     QSerialPort* serial;
     int turn;
     int x;

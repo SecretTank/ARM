@@ -7,6 +7,7 @@
 #include "renderarea.h"
 #include "define.h"
 #include "QTimer"
+#include "osil.h"
 
 
 class MainWindow : public QMainWindow
@@ -20,12 +21,15 @@ public:
 
 private slots:
     void update_osil();
+    void try_connect();
 private:
     RenderArea *renderArea;
     int voltage;
     QLabel* status;
     int x;
+    osil *device;
     QTimer *update_timer;
+    QTimer *connect_timer;
 
 
     QWidget *mainWidget;

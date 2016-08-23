@@ -2,14 +2,17 @@
 
 #include <QPainter>
 
-RenderArea::RenderArea(QWidget *parent)
+RenderArea::RenderArea(oscope_data *data, QWidget *parent)
     : QWidget(parent)
 {
+    adc_data = data;
     setBackgroundRole(QPalette::Base);
     setAutoFillBackground(true);
     //painter = QPainter(this);
     boom = new QPixmap (1200, 400);
     img_painter.begin(boom);
+    boom->fill(Qt::transparent);
+    background = new QPixmap("/home/bijan/Project/ARM/ARM/10_Scope/GUI/Resources/path4522.png");
 }
 
 QSize RenderArea::minimumSizeHint() const
@@ -22,17 +25,17 @@ QSize RenderArea::sizeHint() const
     return QSize(1200, 400);
 }
 
-void RenderArea::addPoint(int x , int y )
+void RenderArea::renderPoint()
 {
-    img_painter.fillRect(10*x, 0, 10, this->height(),palette().base());
-    img_painter.setBrush(palette().dark().color());
-    img_painter.drawEllipse(QPoint(10*x+5,y),5,5);
+    //palette().base().setColor(QColor(0,0,0,0));
+    //img_painter.eraseRect(10*x, 0, 10, this->height());
+    //img_painter.setBrush(palette().dark().color());
+    //img_painter.drawEllipse(QPoint(10*x+5,y),5,5);
 }
 
-void RenderArea::paintEvent(QPaintEvent * /* event */)
+void RenderArea::paint(QPainter *painter)
 {
-    QPainter wid_painter;
-    wid_painter.begin(this);
-    wid_painter.drawPixmap(0,0,*boom);
+    painter.drawPixmap(0,0,*background);
+    painter.drawPixmap(0,0,*boom);
     //qDebug() << "Hi";
 }

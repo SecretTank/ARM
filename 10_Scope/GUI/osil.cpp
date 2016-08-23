@@ -22,12 +22,9 @@ osil::osil(oscope_data *data)
     serial = new QSerialPort(this);
     x = 0;
     openSerialPort();
-    qDebug() << "Fuck connect";
     turn = find_backR;
     adc_data = data;
-    qDebug() << "before connect";
     connect(serial,SIGNAL(readyRead()),this,SLOT(readData()));
-    qDebug() << "after connect";
 }
 
 bool osil::openSerialPort()
@@ -39,15 +36,12 @@ bool osil::openSerialPort()
     serial->setStopBits(stop_bits);
     serial->setStopBits(stop_bits);
     serial->setFlowControl(flow_control);
-    qDebug() << "Sock connect";
     if (serial->open(QIODevice::ReadWrite))
     {
         return true;
-        qDebug() << "thread started";
     }
     else
     {
-        qDebug() << "Fuck!!!";
         qDebug() << serial->error();
         return false;
     }
@@ -98,7 +92,6 @@ void osil::readData()
                 break;
         }
     }
-    //qDebug() << "we get data";
 }
 
 osil::~osil()
