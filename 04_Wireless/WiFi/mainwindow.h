@@ -7,16 +7,9 @@
 #include <QTcpSocket>
 #include <QLineEdit>
 #include <QMainWindow>
+#include <QDialogButtonBox>
+#include <QLabel>
 
-QT_BEGIN_NAMESPACE
-class QDialogButtonBox;
-class QLabel;
-class QProgressBar;
-class QPushButton;
-class QTcpServer;
-class QTcpSocket;
-class QAction;
-QT_END_NAMESPACE
 
 class MainWindow : public QMainWindow
 {
@@ -28,13 +21,10 @@ public:
 public slots:
     void start();
     void acceptConnection();
-    void updateServerProgress();
     void displayError(QAbstractSocket::SocketError socketError);
-    void send();
     void send(QString message);
 
 private:
-    QProgressBar *serverProgressBar;
     QLabel *serverStatusLabel;
     QLabel *result;
     QPushButton *startButton;
@@ -42,6 +32,7 @@ private:
     QPushButton *quitButton;
     QDialogButtonBox *buttonBox;
     QLineEdit *sendtext;
+    QLineEdit *ipText;
     QTcpServer tcpServer;
     QTcpSocket *tcpServerConnection;
     int bytesReceived;

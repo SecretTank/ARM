@@ -11,28 +11,24 @@ static const int PayloadSize = 64 * 1024; // 64 KB
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
-    serverProgressBar = new QProgressBar;
     serverStatusLabel = new QLabel(tr("Server ready"));
     result = new QLabel("Waiting for command");
     startButton = new QPushButton(tr("&Start"));
     quitButton = new QPushButton(tr("&Quit"));
     sendButton=new QPushButton(tr("&send"));
-    sendtext=new QLineEdit();
+    sendtext=new QLineEdit;
+    ipText = new QLineEdit;
     buttonBox = new QDialogButtonBox;
     buttonBox->addButton(startButton, QDialogButtonBox::ActionRole);
     buttonBox->addButton(quitButton, QDialogButtonBox::RejectRole);
 
     connect(startButton, SIGNAL(clicked()), this, SLOT(start()));
     connect(quitButton, SIGNAL(clicked()), this, SLOT(close()));
-    connect(sendButton, SIGNAL(clicked()), this, SLOT(send()));
     connect(&tcpServer, SIGNAL(newConnection()), this, SLOT(acceptConnection()));
     QVBoxLayout *mainLayout = new QVBoxLayout;
-    mainLayout->addWidget(serverProgressBar);
     mainLayout->addWidget(serverStatusLabel);
     sendButton->setEnabled(false);
     mainLayout->addWidget(result);
-    //mainLayout->addStretch(1);
-    //mainLayout->addSpacing(10);
     mainLayout->addWidget(buttonBox);
     mainLayout->addWidget(sendButton);
     mainLayout->addWidget(sendtext);
@@ -78,8 +74,7 @@ void MainWindow::start()
 void MainWindow::acceptConnection()
 {
     tcpServerConnection = tcpServer.nextPendingConnection();
-    connect(tcpServerConnection, SIGNAL(readyRead()),
-            this, SLOT(updateServerProgress()));
+    connect(tcpServerConnection, SIGNAL(readyRead()), this, SLOT(updateServerProgress()));
     connect(tcpServerConnection, SIGNAL(error(QAbstractSocket::SocketError)),
             this, SLOT(displayError(QAbstractSocket::SocketError)));
 
@@ -88,11 +83,6 @@ void MainWindow::acceptConnection()
     tcpServer.close();
 }
 
-void MainWindow::send()
-{
-    QString text=sendtext->text();
-    tcpServerConnection->write(text.toUtf8().data(),15);
-}
 void MainWindow::send(QString message)
 {
     tcpServerConnection->write(message.toUtf8().data(),15);
@@ -104,7 +94,6 @@ void MainWindow::displayError(QAbstractSocket::SocketError socketError)
         return;
 
     tcpServer.close();
-    serverProgressBar->reset();
     serverStatusLabel->setText(tr("Server ready"));
     startButton->setEnabled(true);
 }
