@@ -1,0 +1,14 @@
+#ifndef DEFINE
+#define DEFINE
+
+enum OperatorState {
+    INPUT_REGISER,
+    READ_HOLDING_REGISTER,
+    WRITE_HOLDING_REGISTER,
+    DISCRETE_INPUT,
+    READ_COIL,
+    WRITE_COIL
+};
+
+#endif // DEFINE
+

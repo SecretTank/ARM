@@ -4,6 +4,8 @@
 #include "mainwindow.h"
 #include <QDebug>
 
+#define DEFAULT_IP   "192.168.88.25"
+#define DEFAULT_PORT "7778"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -11,10 +13,10 @@ MainWindow::MainWindow(QWidget *parent)
     statusLabel = new QLabel("Waiting for command");
     startButton = new QPushButton("Start");
     quitButton = new QPushButton("Quit");
-    ipText = new QLineEdit("172.16.156.78");\
+    ipText = new QLineEdit(DEFAULT_IP);\
     ipLabel = new QLabel("IP: ");
     portLabel = new QLabel(":");
-    portText = new QLineEdit("7778");
+    portText = new QLineEdit(DEFAULT_PORT);
     operatorLabel = new QLabel("Operator: ");
     operatorComboBox = new QComboBox;
     addressLabel = new QLabel("Address: ");
