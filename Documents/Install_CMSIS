@@ -1,6 +1,0 @@
-1. Create Directory /usr/include/CMSIS and /usr/include/CMSIS/Device
-3. Copy %Cube%/Drivers/CMSIS/Include to /usr/include/CMSIS
-2. Copy %Cube%/Drivers/CMSIS/Device/ST/STM32F4xx/Include to /usr/include/CMSIS/Device
-
-*to copy all files you could use something similar to the following command
-sudo cp "/home/bijan/Project/ARM/STM32CubeF4/Drivers/CMSIS/Include/*" /usr/include/CMSIS 
