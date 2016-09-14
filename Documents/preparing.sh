@@ -11,13 +11,14 @@ else
 	GROUP_NAME=uucp
 fi
 
-chgrp $GROUP_NAME /var/lock/lockdev
-chmod g+w /var/lock/lockdev
-usermod -a -G $GROUP_NAME $USERNAME
-usermod -a -G users $USERNAME
-cp "Resources/50-embedded_devices.rules" /etc/udev/rules.d/
-cp Resources/gtkterm.desktop /usr/share/applications/
-chmod +x /usr/share/applications/gtkterm.desktop
+sudo chgrp $GROUP_NAME /var/lock/lockdev
+sudo chmod g+w /var/lock/lockdev
+sudo usermod -a -G $GROUP_NAME $USERNAME
+sudo usermod -a -G users $USERNAME
+sudo cp "Resources/50-embedded_devices.rules" /etc/udev/rules.d/
+#sudo cp Resources/gtkterm.desktop /usr/share/applications/
+#sudo chmod +x /usr/share/applications/gtkterm.desktop
+
 #add Qt color scheme
 mkdir ~/.config/QtProject/qtcreator/styles
 cp 'Resources/Cobalt.xml' ~/.config/QtProject/qtcreator/styles
