@@ -32,14 +32,34 @@ void dsco_led_init()
 
 //call on avalible data on usart line
 void UART4_IRQHandler(void) {
-    uint8_t data;
+  uint8_t data;
 	GPIOD->ODR ^= DISCOF4_LED_RED;
-    if ( UART4->SR & USART_SR_RXNE ) 
-    {
+  if ( UART4->SR & USART_SR_RXNE ) 
+  {
 		UART4->SR &= ~USART_SR_RXNE;
-    	data = UART4->DR;
-        transmitByte(data);
-    }
+  	data = UART4->DR;
+    transmitByte(data);
+  }
+}
+
+uint8_t spi_read_auto(uint8_t address) 
+{
+	uint8_t response;
+	SPI_CS_LOW
+	spi_transfer(address | 0x80);
+	response = spi_transfer(0xFF);
+	SPI_CS_HIGH
+	return response;
+}
+
+uint8_t spi_write_auto(uint8_t address,uint8_t data) 
+{
+	uint8_t response;
+	SPI_CS_LOW
+	spi_transfer(address);
+	response = spi_transfer(data);
+	SPI_CS_HIGH
+	return response;
 }
 
 
@@ -48,81 +68,55 @@ void main ()
 	dsco_led_init();
 	spi_init(FALSE); //no hardware chip select
 	usart_init();
-	//initialise chip select on PD0
-	//GPIOD->OTYPER |= GPIO_OTYPER_OT_0; //Open Drain : 0 : 0 , 1: Z
-
-	GPIOD->MODER |= GPIO_MODER_MODER0_0 ;
 	
-	SPI_CS_HIGH
+	//initialise chip select on PD0 ( Open Drain not work for this module )
+	GPIOD->MODER |= GPIO_MODER_MODER0_0 ;SPI_CS_HIGH
 	
-	uint8_t response;
+	uint8_t response, i;
 	GPIOD->ODR ^= DISCOF4_LED_GREEN; //Lights on green LED
-	
-	ms_delay(500);
-
-	uint8_t isReset = 1;
-	SPI_CS_LOW
-	spi_transfer(0x6B);
-	SPI_CS_HIGH
-	ms_delay(100); 
-	spi_transfer(0x80);
-	ms_delay(100);
-	printString("Hello World\r\n");
-	while ( isReset )
+	uint8_t inReset = 1;
+	spi_write_auto(0x6B,0x80);
+	printString("Reset command sent\r\n");
+	i = 0;
+	while ( inReset )
 	{
-		SPI_CS_LOW
-		spi_transfer( 0x6B | 0x80 );
-		//ms_delay(100);
-		isReset = spi_transfer(0xFF) & 0x80;
-		//ms_delay(100);
+		i++;
+		response = spi_read_auto( 0x6B );
+		inReset = response & 0x80;
+		if ( i > 500 )
+		{
+			printString("Reset Error, Response: ");
+			printWord(response);
+			printString("\r\n");
+			i = 0;
+		}
 	}
-	printString("Module resets\r\n");
-	spi_transfer(0x6A);
-	ms_delay(100);
-	spi_transfer(0x10);
-	ms_delay(100);
-	spi_transfer(0x68);
-	ms_delay(100);
-	spi_transfer(0x07);
-	ms_delay(100);
-	spi_transfer( 0x75 | 0x80) ;
-	ms_delay(100);
-	response = spi_transfer(0xFF);
-	ms_delay(100);
-	printString("ID: ");
- 	printWord(response);
-	printString("\r\n");
-	/*spi_transfer(0x6B); 
-	spi_transfer(0x6B); 
-	spi_transfer(0x6B); 
-	spi_transfer(0x6B); 
-	spi_transfer(0x6B); 
-	spi_transfer(0x6B); 
-	spi_transfer(0x6B);*/
+	response = spi_read_auto( 0x6B );
+	printString("Module resets, Power MGT: ");printWord(response);printString("\r\n");
+	response = spi_read_auto( 0x75 );
+	printString("ID: ");printWord(response);printString("\r\n");
+	uint8_t gyro_xl, gyro_xh, gyro_yl, gyro_yh, gyro_zl, gyro_zh;
+	uint8_t accel_xl, accel_xh, accel_yl, accel_yh, accel_zl, accel_zh;
 	while (TRUE)
 	{
-		//
-		//Put Your Magic Here
-		//
-		
-		//DEBUG_SEND_USART("we are inside the loop!\r\n");
-
-		SPI_CS_HIGH
-		ms_delay(1000);
-		SPI_CS_LOW
-		spi_transfer( 0x75 | 0x80) ;
-		ms_delay(100);
-		response = spi_transfer(0xFF);
-		printString("Response: ");
-		printWord(response);
-		printString("\r\n");
-
-		
-		ms_delay(1);
-		ms_delay(1);
-		//ms_delay(100000); //wait for end of world
-		
-		//finish tutorial
-		//lets fly
+		gyro_xh = spi_read_auto( 67 ) ;
+		gyro_xl = spi_read_auto( 68 ) ;
+		gyro_yh = spi_read_auto( 69 ) ;
+		gyro_yl = spi_read_auto( 70 ) ;
+		gyro_zh = spi_read_auto( 71 ) ;
+		gyro_zl = spi_read_auto( 72 ) ;
+		printString("Gyro : {");printWord((gyro_xh << 8) + gyro_xl);
+		printString(", ");printWord((gyro_yh << 8) + gyro_yl);
+		printString(", ");printWord((gyro_zh << 8) + gyro_zl);
+		accel_xh = spi_read_auto( 59 ) ;
+		accel_xl = spi_read_auto( 60 ) ;
+		accel_yh = spi_read_auto( 61 ) ;
+		accel_yl = spi_read_auto( 62 ) ;
+		accel_zh = spi_read_auto( 63 ) ;
+		accel_zl = spi_read_auto( 64 ) ;
+		printString("}     Accel : {");printWord((accel_xh << 8) + accel_xl);
+		printString(", ");printWord((accel_yh << 8) + accel_yl);
+		printString(", ");printWord((accel_zh << 8) + accel_zl);printString("}\r");
+		ms_delay(20);
 	}
 }
