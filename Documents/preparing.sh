@@ -1,4 +1,12 @@
 #!/bin/sh
+if [ ! -d "/usr/include/CMSIS" ]; then
+	sudo mkdir "/usr/include/CMSIS"
+fi
+
+if [ ! -d "/usr/include/CMSIS/Device" ]; then
+	sudo mkdir "/usr/include/CMSIS/Device"
+fi
+
 USERNAME=`whoami` #change bijan to your username
 
 # for newer systems answer yes
@@ -20,7 +28,10 @@ sudo cp "Resources/50-embedded_devices.rules" /etc/udev/rules.d/
 #sudo chmod +x /usr/share/applications/gtkterm.desktop
 
 #add Qt color scheme
-mkdir ~/.config/QtProject/qtcreator/styles
+
+if [ ! -d "~/.config/QtProject/qtcreator/styles" ]; then
+	mkdir "~/.config/QtProject/qtcreator/styles"
+fi
 cp 'Resources/Cobalt.xml' ~/.config/QtProject/qtcreator/styles
 chmod 777 ~/.config/QtProject/qtcreator/styles/Cobalt.xml
 echo "Please reboot to changes take effect"
