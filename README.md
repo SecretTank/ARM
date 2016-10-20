@@ -3,7 +3,7 @@ ARM Example Projects in Linux
 
 ## How To Start
 1. Download CMSIS Library (named STM32CubeF4 for stm32 MCU families) from [ST website](http://www.st.com/web/en/catalog/tools/PF259242)
-2. Extract Files and replace it with **<Your CMSIS Dir>** in the next step.
+2. Extract Files and replace it with **\<Your CMSIS Dir>** in the next step.
 3. Run `Documents/preparing.sh "<Your CMSIS Dir>"` from your terminal, **be sure to not use sudo**. The script ask for root access automatically.
 4. Enjoy
 
