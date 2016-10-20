@@ -8,6 +8,7 @@ ARM Example Projects in Linux
 4. Enjoy
 
 * In case of failure upon automatic installation see `Manual CMSIS Installation` section
+
 ## Dependencies
 ```
 sudo pacman -S arm-none-eabi-gcc arm-none-eabi-newlib openocd
