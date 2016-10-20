@@ -7,6 +7,13 @@ if [ ! -d "/usr/include/CMSIS/Device" ]; then
 	sudo mkdir "/usr/include/CMSIS/Device"
 fi
 
+if [ -n "$1" ]; then
+	echo "Installing CMSIS"
+	sudo cp "$1/Drivers/CMSIS/Include/*" "/usr/include/CMSIS"
+	sudo cp "$1/Drivers/CMSIS/Device/ST/STM32F4xx/Include/*" "/usr/include/CMSIS/Device"
+	echo "Installation Finished"
+fi
+
 USERNAME=`whoami` #change bijan to your username
 
 # for newer systems answer yes
